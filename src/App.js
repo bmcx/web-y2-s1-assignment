@@ -6,16 +6,18 @@ import SideNav from "./common/containers/SideNavContainer";
 function App() {
   return (
     <BrowserRouter>
-      <div className="App">
+      <div className="w-screen h-screen p-2 bg-gray-50 flex">
         <SideNav />
-        <Switch>
-          <Route path="/profile">
-            <ProfilePage />
-          </Route>
-          <Route path="/">
-            <HomePage />
-          </Route>
-        </Switch>
+        <div className="flex-1 bg-red-200">
+          <Switch>
+            <Route path="/profile">
+              <ProfilePage />
+            </Route>
+            <Route path="/">
+              <HomePage />
+            </Route>
+          </Switch>
+        </div>
       </div>
     </BrowserRouter>
   );
