@@ -39,8 +39,8 @@ function Profilek(){
                         <input branch="branch" />
                     </label>
                  </fieldset>
-                <button type="submit">Submit</button>
-                <button type="reset">reset</button>
+                <button type="submit">Ok</button>
+                <button type="reset">Cancle</button>
                 </form> 
         </div>
     );

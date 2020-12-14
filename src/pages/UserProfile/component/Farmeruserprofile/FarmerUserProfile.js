@@ -1,27 +1,27 @@
 import React from 'react';
 
-function profile(){
+function profileF(){
     return(
         <div>
-            <h1>DEPARTMENT USER-PROFILE</h1>
+            <h1>FARMER USER-PROFILE</h1>
             <form>
                 <fieldset>
                     <lable>
                         <p>Profile Image</p>
-                        <input type="file" accept="image/*" multiple="fales" />
+                        <input type="file" accept="image" multiple="fales" />
+                    </lable>
+                    <lable>
+                        <p>First name</p>
+                        <input name="firstname" />
                     </lable>
                     <label>
-                        <p>First Name</p>
-                        <input name="firstname"/>
+                        <p>Last name</p>
+                        <input name="last name" />
                     </label>
-                    <lable>
-                        <p>Last Name</p>
-                        <input name="lastname"/>
-                    </lable>
-                    <lable>
-                        <p>Contact Number</p>
+                    <label>
+                        <p>Contact</p>
                         <input contact="contact" />
-                    </lable>
+                    </label>
                     <lable>
                         <p>Email</p>
                         <input email="email" />
@@ -30,11 +30,11 @@ function profile(){
                         <p>ID</p>
                         <input id="id" />
                     </label>
-                 </fieldset>
+                </fieldset>
                 <button type="submit">OK</button>
                 <button type="reset">Cancle</button>
-                </form> 
+            </form>
         </div>
-    );
+    )
 }
-export default profile;
+export default profileF;
