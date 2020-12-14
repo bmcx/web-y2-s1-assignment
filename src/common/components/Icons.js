@@ -2,7 +2,7 @@ import React from "react";
 
 export const IconHomeOutline = ({ strokeWidth, colorClass }) => (
   <svg
-    className={`stroke-current ${colorClass}`}
+    className={`stroke-current ${colorClass} w-6 m-auto`}
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 24 24"
@@ -19,7 +19,7 @@ export const IconHomeOutline = ({ strokeWidth, colorClass }) => (
 
 export const IconUserOutline = ({ strokeWidth, colorClass }) => (
   <svg
-    className={`stroke-current ${colorClass}`}
+    className={`stroke-current ${colorClass} w-6 m-auto`}
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 24 24"
