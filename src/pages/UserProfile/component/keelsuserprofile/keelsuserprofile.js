@@ -1,6 +1,6 @@
 import React from 'react';
 
-function profile(){
+function Profilek(){
     return(
         <div>
             <h1>KEELS USER-PROFILE</h1>
@@ -45,4 +45,4 @@ function profile(){
         </div>
     );
 }
-export default profile;
+export default Profilek;
