@@ -6,10 +6,10 @@ import Profilen from './component/keelsuserprofile/keelsshowdata';
 const ProfilePage = () => (
   <div>
     <h1>Profile</h1>
-    <Profile />
+    {/* <Profile />
     <Profilek />
     <ProfileF />
-    {/* <Profilen /> */}
+    <Profilen /> */}
   </div>
 );
 
