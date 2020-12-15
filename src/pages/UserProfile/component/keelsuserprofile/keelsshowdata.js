@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-function Profilek(){
+function Profilen(){
     return(
       
 <div>
@@ -57,4 +57,4 @@ document.getElementById("datetime").innerHTML = dt.toLocaleString();
           </div>
     );
 }
-export default Profilek;
+export default Profilen;
