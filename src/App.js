@@ -8,7 +8,7 @@ function App() {
     <BrowserRouter>
       <div className="w-screen h-screen p-2 bg-gray-50 flex">
         <SideNav />
-        <div className="flex-1 bg-red-200">
+        <div className="flex-1">
           <Switch>
             <Route path="/" exact>
               <HomePage />
