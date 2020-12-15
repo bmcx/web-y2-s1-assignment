@@ -1,4 +1,4 @@
-import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage/HomePageContainer";
 import ProfilePage from "./pages/UserProfile/UserProfileContainer";
 import SideNav from "./common/containers/SideNavContainer";
@@ -10,11 +10,11 @@ function App() {
         <SideNav />
         <div className="flex-1 bg-red-200">
           <Switch>
+            <Route path="/" exact>
+              <HomePage />
+            </Route>
             <Route path="/profile">
               <ProfilePage />
-            </Route>
-            <Route path="/">
-              <HomePage />
             </Route>
           </Switch>
         </div>

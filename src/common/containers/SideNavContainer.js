@@ -1,25 +1,67 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { IconHomeOutline, IconUserOutline } from "../components/Icons";
+import { Route, Link } from "react-router-dom";
+import {
+  IconHomeOutline,
+  IconUserOutline,
+  IconChatOutline,
+} from "../components/Icons";
 
-const SideNav = () => (
-  <div className="flex-shrink-0 mr-2 px-4 py-6">
-    <div className="w-10 h-10 bg-green-500 rounded mb-6"></div>
-    <nav>
-      <ul>
-        <li className="mb-6">
-          <Link to="/">
-            <IconHomeOutline strokeWidth={2} colorClass="text-gray-400 m-1 hover:text-green-600 " />
-          </Link>
-        </li>
-        <li>
-          <Link to="/profile">
-            <IconUserOutline strokeWidth={2} colorClass="text-green-600 m-1" />
-          </Link>
-        </li>
-      </ul>
-    </nav>
-  </div>
-);
+const SideNav = () => {
+  return (
+    <div className="flex-shrink-0 mr-2 px-4 py-6 flex flex-col">
+      <div className="w-10 h-10 bg-green-500 rounded mb-6"></div>
+      <nav className="mt-6">
+        <ul>
+          <SideNavItem to="/">
+            {(isActive) => (
+              <IconHomeOutline
+                strokeWidth={2}
+                colorClass={isActive ? "text-green-600" : "text-gray-400"}
+              />
+            )}
+          </SideNavItem>
+          <SideNavItem to="/chat">
+            {(isActive) => (
+              <IconChatOutline
+                strokeWidth={2}
+                colorClass={isActive ? "text-green-600" : "text-gray-400"}
+              />
+            )}
+          </SideNavItem>
+          <SideNavItem to="/profile">
+            {(isActive) => (
+              <IconUserOutline
+                strokeWidth={2}
+                colorClass={isActive ? "text-green-600" : "text-gray-400"}
+              />
+            )}
+          </SideNavItem>
+        </ul>
+      </nav>
+    </div>
+  );
+};
 
+const SideNavItem = ({ to, children, className, activeClassName, ...rest }) => {
+  const path = typeof to === "object" ? to.pathname : to;
+  return (
+    <li className="mb-6">
+      <Route
+        path={path}
+        children={(p) => {
+          const isActive = to === p?.location?.pathname;
+          return (
+            <Link
+              className="hover:text-green-600 ease-out duration-500"
+              {...rest}
+              to={to}
+            >
+              {typeof children === "function" ? children(isActive) : children}
+            </Link>
+          );
+        }}
+      />
+    </li>
+  );
+};
 export default SideNav;

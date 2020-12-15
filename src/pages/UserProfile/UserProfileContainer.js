@@ -9,7 +9,7 @@ const ProfilePage = () => (
     <Profile />
     <Profilek />
     <ProfileF />
-    <Profilen />
+    {/* <Profilen /> */}
   </div>
 );
 

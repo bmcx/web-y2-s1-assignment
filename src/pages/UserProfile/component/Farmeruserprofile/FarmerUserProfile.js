@@ -6,14 +6,14 @@ function profileF(){
             <h1>FARMER USER-PROFILE</h1>
             <form>
                 <fieldset>
-                    <lable>
+                    <label>
                         <p>Profile Image</p>
                         <input type="file" accept="image" multiple="fales" />
-                    </lable>
-                    <lable>
+                    </label>
+                    <label>
                         <p>First name</p>
                         <input name="firstname" />
-                    </lable>
+                    </label>
                     <label>
                         <p>Last name</p>
                         <input name="last name" />
@@ -22,10 +22,10 @@ function profileF(){
                         <p>Contact</p>
                         <input contact="contact" />
                     </label>
-                    <lable>
+                    <label>
                         <p>Email</p>
                         <input email="email" />
-                    </lable>
+                    </label>
                     <label>
                         <p>ID</p>
                         <input id="id" />
