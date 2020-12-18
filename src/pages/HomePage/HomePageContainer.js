@@ -1,4 +1,9 @@
 import React, { Component } from "react";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import {
+  IconMapPinOutline,
+  IconStarOutline,
+} from "../../common/components/Icons";
 import ToggleSwitch from "../../common/components/ToggleSwitch";
 
 class HomePage extends Component {
@@ -12,7 +17,7 @@ class HomePage extends Component {
   render() {
     return (
       <div className="flex w-full h-full">
-        <div className="flex-1 px-8">
+        <div className="flex-1 pl-4 pr-4 h-full overflow-y-auto">
           <div className="py-4">
             <div className="bg-gray-100 flex items-center rounded-2xl shadow-sm">
               <input
@@ -50,7 +55,7 @@ class HomePage extends Component {
               <ToggleSwitch label="Show Map" />
             </div>
           </div>
-          <div className="flex content-center mb-10">
+          <div className="flex content-center mb-10 sticky top-0 bg-gray-50 pb-4 px-2 shadow-sm rounded-b-sm">
             <div className="flex-grow flex space-x-1">
               <h2 className="font-bold text-4xl text-gray-700">Vegetable</h2>
               <h4 className="text-xl text-gray-400 self-end pl-2 ">
@@ -61,7 +66,7 @@ class HomePage extends Component {
               <div className="my-auto mx-2 p-2 shadow-sm hover:shadow-md rounded-lg cursor-pointer ease-out duration-300">
                 <div className="w-6 h-6 ">
                   <svg
-                  className="text-gray-600"
+                    className="text-gray-600"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -78,28 +83,35 @@ class HomePage extends Component {
               </div>
             </div>
           </div>
-          <div className="flex content-center space-x-4">
-            <div className="flex-shrink-0">
-              <div className=" w-36 h-36 rounded-2xl bg-gray-400"></div>
-            </div>
-            <div className="flex-grow flex flex-col space-y-1">
-              <div className="flex">
-                <div className="flex-grow flex space-x-1">
-                  <CategoryChip name="Vegetable" color="bg-green-700" />
-                  <SubCategoryChip name="Carrot" color="bg-green-500" />
-                  <SubCategoryChip name="Vegetable" color="bg-green-500" />
-                </div>
-                <div className="flex-shrink-0"></div>
-              </div>
-              <div className="text-gray-700 font-bold text-xl font-lato">
-                Carrot from Nuwara-Eliya
-              </div>
-              <div className="bg-gray-400 h-2"></div>
-              <div className="bg-gray-400 h-2"></div>
-            </div>
+          <div className="flex flex-col">
+            <ResultListItem />
+            <ResultListItem />
+            <ResultListItem />
+            <ResultListItem />
+            <ResultListItem />
+            <ResultListItem />
+            <ResultListItem />
           </div>
         </div>
-        <div className="flex-1 bg-gray-300 rounded-2xl overflow-hidden transform "></div>
+        <div className="ml-3 flex-1 bg-gray-300 rounded-2xl overflow-hidden transform">
+          <MapContainer
+            style={{ height: "100%" }}
+            center={[7.8731, 80.7718]}
+            zoom={10}
+            scrollWheelZoom={false}
+          >
+            <TileLayer
+              attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              // url="https://tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png"
+            />
+            <Marker position={[7.8731, 80.7718]}>
+              <Popup>
+                A pretty CSS3 popup. <br /> Easily customizable.
+              </Popup>
+            </Marker>
+          </MapContainer>
+        </div>
       </div>
     );
   }
@@ -117,7 +129,7 @@ const SearchChip = ({ name, onClick }) => (
 const CategoryChip = ({ name, color, onClick }) => (
   <div
     onClick={onClick}
-    className={`${color} text-white font-lato px-2 py-1 text-2xs uppercase rounded-lg`}
+    className={`${color} text-white font-lato px-2 py-1 text-2xs uppercase rounded-lg my-auto`}
   >
     {name}
   </div>
@@ -126,9 +138,49 @@ const CategoryChip = ({ name, color, onClick }) => (
 const SubCategoryChip = ({ name, color, onClick }) => (
   <div
     onClick={onClick}
-    className={`${color} text-white font-lato px-2 py-1 text-2xs uppercase rounded-lg`}
+    className={`${color} text-white font-lato px-2 py-1 text-2xs uppercase rounded-lg my-auto`}
   >
     {name}
+  </div>
+);
+
+const ResultListItem = ({ name, color, onClick }) => (
+  <div className="flex content-center space-x-4 cursor-pointer mb-10">
+    <div className="flex-shrink-0">
+      <div className=" w-40 h-40 rounded-2xl bg-gray-400"></div>
+    </div>
+    <div className="flex-grow flex flex-col space-y-1 py-1">
+      <div className="flex-shrink-0">
+        <div className="flex">
+          <div className="flex-grow flex space-x-1">
+            <CategoryChip name="Vegetable" color="bg-green-700" />
+            <SubCategoryChip name="Carrot" color="bg-green-500" />
+            <SubCategoryChip name="Vegetable" color="bg-green-500" />
+          </div>
+          <div className="flex-shrink-0">
+            <div className=" m-auto">
+              <IconStarOutline colorClass={"w-6"} strokeWidth={2} />
+            </div>
+          </div>
+        </div>
+        <div className="text-gray-700 font-bold text-xl font-lato mt-1 mb-1">
+          Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum
+          dolor sit amet
+        </div>
+
+        <div className="flex text-xs flex-row pb-2 pt-1 text-gray-400">
+          <div className="w-4">
+            <IconMapPinOutline strokeWidth={2} />
+          </div>
+          <div className="self-center">123, ABC DEF, XYZ</div>
+        </div>
+      </div>
+
+      <div className="flex-grow flex justify-between items-end">
+        <div className="">Rating</div>
+        <div className="text-gray-400">4 days ago</div>
+      </div>
+    </div>
   </div>
 );
 
