@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 
-const ToggleSwitch = ({ label }) => {
+const ToggleSwitch = (props) => {
   const [checked, setChecked] = useState(false);
   return (
     <div className="flex flex-row content-center">
-      <p className="block text-sm pr-1 font-bold text-gray-600">{`${label}`}</p>
+      <p className="block text-sm pr-1 font-bold text-gray-600">{`${props.label}`}</p>
       <div
         className={`w-10 h-6 flex rounded-lg p-1 cursor-pointer ease-out duration-200  ${
           checked ? "bg-green-600" : "bg-gray-300"
         }`}
         onClick={() => {
-          setChecked(!checked);
+          let c = !checked;
+          setChecked(c);
+          props.setValue(c);
         }}
       >
         <div
