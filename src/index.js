@@ -51,8 +51,7 @@ const profileSpecificProps = {
 };
 const rrfProps = {
   firebase,
-  config: firebaseConfig,
-  config: profileSpecificProps,
+  config: {...firebaseConfig,...profileSpecificProps},
   dispatch: store.dispatch,
   createFirestoreInstance,
 };

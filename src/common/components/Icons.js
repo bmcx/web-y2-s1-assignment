@@ -178,7 +178,7 @@ export const IconSpinner = ({ strokeWidth = 5, colorClass }) => (
       cy="25"
       r="20"
       fill="none"
-      stroke-width={strokeWidth}
+      strokeWidth={strokeWidth}
     ></circle>
   </svg>
 );
