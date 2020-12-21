@@ -3,7 +3,10 @@ import { connect } from "react-redux";
 import FormInput from "../../../common/components/FormInput";
 import FormInputPassword from "../../../common/components/FormInputPassword";
 import { IconSpinner } from "../../../common/components/Icons";
-import { signInAction } from "../../../state/auth/authActions";
+import {
+  signInAction,
+  signInWithGoogleAction,
+} from "../../../state/auth/authActions";
 
 const SignInForm = (props) => {
   const [loading, setLoading] = useState(false);
@@ -32,8 +35,8 @@ const SignInForm = (props) => {
 
       <p className="text-xl text-gray-600 text-center">Welcome back!</p>
       <button
-        href="#"
-        className="flex items-center justify-center mt-4 text-white rounded-lg shadow-md hover:bg-gray-100 w-full transition-all ease-out duration-400"
+        onClick={() => props.signInWithGoogle()}
+        className="flex items-center justify-center mt-4 text-white rounded-lg shadow-md hover:bg-gray-100 w-full transition-all ease-out duration-400 focus:outline-none"
       >
         <div className="px-4 py-3 text-center text-gray-600 font-bold w-full">
           <svg className="h-6 w-6 absolute" viewBox="0 0 40 40">
@@ -144,6 +147,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     signIn: (data) => dispatch(signInAction(data)),
+    signInWithGoogle: () => dispatch(signInWithGoogleAction()),
   };
 };
 

@@ -13,3 +13,17 @@ export const signInAction = (data) => {
     }
   };
 };
+export const signInWithGoogleAction = () => {
+  return async (dispatch, getState, { getFirebase }) => {
+    const firebase = getFirebase();
+    var provider = new firebase.auth.GoogleAuthProvider();
+    try {
+      var res = await firebase
+        .auth()
+        .signInWithPopup(provider);
+      dispatch({ type: actionTypes.GOOGLE_LOGIN_SUCCESS, res });
+    } catch (err) {
+      dispatch({ type: actionTypes.GOOGLE_LOGIN_ERROR, err });
+    }
+  };
+};

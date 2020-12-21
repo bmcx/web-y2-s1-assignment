@@ -9,7 +9,7 @@ function App() {
   return (
     <BrowserRouter>
       <ToastContainer position="top-center" toastClassName="rounded-lg"/>
-      <AuthContainer />
+      {/* <AuthContainer /> */}
       <div className="w-screen h-screen p-2 bg-gray-50 flex">
         <SideNav />
         <div className="flex-1 overflow-y-auto">
