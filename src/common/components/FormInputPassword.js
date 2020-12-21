@@ -7,7 +7,7 @@ const FormInputPassword = ({ id, labelText, name, required }) => {
       <div className="flex justify-between items-center">
         <label
           className="block text-gray-600 text-sm font-medium mb-2"
-          for={id}
+          htmlFor={id}
         >
           {labelText}
         </label>

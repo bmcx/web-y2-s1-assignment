@@ -5,7 +5,7 @@ import Tooltip from "./Tooltip";
 const FormInput = ({ id, labelText, name, type, required, tooltipText }) => (
   <>
     <div className="flex justify-between items-center">
-      <label className="block text-gray-600 text-sm font-medium mb-2" for={id}>
+      <label className="block text-gray-600 text-sm font-medium mb-2" htmlFor={id}>
         {labelText}
       </label>
       <div className="mb-2 text-xs text-gray-500 hover:text-gray-800 focus:outline-none cursor-pointer">

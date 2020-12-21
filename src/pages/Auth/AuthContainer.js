@@ -9,7 +9,7 @@ const AuthContainer = (props) => {
       style={{ backdropFilter: "blur(5px)" }}
       className="w-screen h-screen absolute z-10 flex items-center justify-center"
     >
-      <SignUpForm />
+      <SignInForm />
       <div className="w-screen h-screen absolute bg-black opacity-40"></div>
     </div>
   );
