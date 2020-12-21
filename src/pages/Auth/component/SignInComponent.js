@@ -1,12 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { toast } from "react-toastify";
+import FormInput from "../../../common/components/FormInput";
+import FormInputPassword from "../../../common/components/FormInputPassword";
+import { IconSpinner } from "../../../common/components/Icons";
 import { signInAction } from "../../../state/auth/authActions";
 
 const SignInForm = (props) => {
+  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { authError } = props;
+
+  useEffect(() => {
+    if (authError) {
+      setLoading(false);
+    }
+  }, [authError]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setLoading(true);
+    props.signIn({
+      email,
+      password,
+    });
+  };
 
   return (
     <div className="bg-gray-50 rounded-lg w-96 shadow-lg p-4 z-20">
@@ -48,66 +66,55 @@ const SignInForm = (props) => {
 
         <span className="border-b w-1/5 lg:w-1/4"></span>
       </div>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          props.signIn({
-            email,
-            password,
-          });
-        }}
-      >
+      <form onSubmit={handleSubmit}>
         <div className="mt-4">
-          <label
-            className="block text-gray-600 text-sm font-medium mb-2"
-            htmlFor="LoggingEmailAddress"
-          >
-            Email Address
-          </label>
-          <input
-            required
-            id="LoggingEmailAddress"
-            className="bg-white text-gray-700 border border-gray-300 rounded-lg py-2 px-4 block w-full focus:border-gray-500 focus:outline-none focus:ring focus:ring-gray-300 transition-all ease-out duration-300"
+          <FormInput
+            id="email"
+            labelText="Email Address"
+            name="email"
             type="email"
+            required={true}
+            disabled={loading}
             onChange={(e) => {
               setEmail(e.target.value);
             }}
+            validationError={authError ? true : false}
+            autoFocus={true}
           />
         </div>
-
         <div className="mt-4">
-          <div className="flex justify-between">
-            <label
-              className="block text-gray-600 text-sm font-medium mb-2"
-              htmlFor="loggingPassword"
-            >
-              Password
-            </label>
-            <button
-              href="#"
-              className="text-xs text-gray-500 hover:underline focus:outline-none"
-            >
-              Forgot Password?
-            </button>
-          </div>
-
-          <input
-            required
-            id="loggingPassword"
-            className="bg-white text-gray-700 border border-gray-300 rounded-lg py-2 px-4 block w-full focus:border-gray-500 focus:outline-none focus:ring focus:ring-gray-300 transition-all ease-out duration-300"
+          <FormInputPassword
+            id="password"
+            labelText="Password"
+            name="password"
             type="password"
+            required={true}
+            disabled={loading}
             onChange={(e) => {
               setPassword(e.target.value);
             }}
+            validationError={authError ? true : false}
           />
         </div>
-        <div className="text-sm mt-2 text-center text-red-500">{authError}</div>
+
+        {authError ? (
+          <div className="text-xs mt-2 text-center p-2 bg-red-400 rounded-lg text-white">
+            {authError}
+          </div>
+        ) : null}
         <div className="mt-6">
           <button
+            disabled={loading}
             type="submit"
             className="bg-gray-700 text-white uppercase font-bold py-2 px-4 w-full rounded-lg hover:bg-gray-600 focus:outline-none focus:bg-gray-600 ease-out duration-300"
           >
-            Sign in
+            {loading ? (
+              <div className="w-6 h-6 mx-auto">
+                <IconSpinner colorClass="text-gray-300" />
+              </div>
+            ) : (
+              "Sign in"
+            )}
           </button>
         </div>
       </form>
@@ -117,6 +124,7 @@ const SignInForm = (props) => {
 
         <button
           href="#"
+          disabled={loading}
           className="text-xs text-gray-500 uppercase hover:underline focus:outline-none"
         >
           or sign up

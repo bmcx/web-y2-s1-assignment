@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import actionTypes from "../actionTypes";
 
 const initState = {
@@ -5,7 +6,7 @@ const initState = {
 };
 
 const auth = (state = initState, action) => {
-  console.log(action);
+  let msg = action?.err?.message ?? "There was an error!";
   switch (action.type) {
     case actionTypes.LOGIN_SUCCESS:
       return {
@@ -13,9 +14,10 @@ const auth = (state = initState, action) => {
         authError: null,
       };
     case actionTypes.LOGIN_ERROR:
+      toast.error(msg);
       return {
         ...state,
-        authError: action?.err?.message ?? "There was an error!",
+        authError: msg,
       };
 
     default:

@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 
-const FormInputPassword = ({ id, labelText, name, required }) => {
+const FormInputPassword = ({
+  id,
+  labelText,
+  name,
+  required,
+  onChange,
+  validationError,
+  disabled,
+}) => {
   const [type, setType] = useState("password");
   return (
     <>
@@ -11,21 +19,28 @@ const FormInputPassword = ({ id, labelText, name, required }) => {
         >
           {labelText}
         </label>
-        <div
+        <button
+          type="button"
           className="text-xs text-gray-500 hover:underline focus:outline-none cursor-pointer"
           onClick={() =>
             type === "password" ? setType("text") : setType("password")
           }
         >
-          {type === "password" ?"Show":"Hide"}&nbsp;password
-        </div>
+          {type === "password" ? "Show" : "Hide"}&nbsp;password
+        </button>
       </div>
 
       <input
         id={id}
         name={name}
-        className=" ring ring-red-300 bg-white text-gray-700 border border-gray-300 rounded-lg py-2 px-4 block w-full focus:border-gray-500 focus:outline-none focus:ring focus:ring-gray-300 transition-all ease-out duration-300"
+        className={` ${
+          validationError
+            ? "ring-red-400 ring-2 border-red-500"
+            : "focus:border-gray-500 focus:ring-gray-300 focus:ring "
+        } bg-white text-gray-700 border border-gray-300 focus:outline-none rounded-lg py-2 px-4 block w-full transition-all ease-out duration-300`}
         type={type}
+        onChange={onChange}
+        disabled={disabled}
         required={required ?? false}
       />
     </>
