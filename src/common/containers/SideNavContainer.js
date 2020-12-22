@@ -1,5 +1,7 @@
 import React from "react";
+import { connect } from "react-redux";
 import { Route, Link } from "react-router-dom";
+import { showAuthModal } from "../../state/auth/authActions";
 import {
   IconHomeOutline,
   IconChatOutline,
@@ -7,7 +9,7 @@ import {
   IconGlobeOutline,
 } from "../components/Icons";
 
-const SideNav = () => {
+const SideNav = (props) => {
   const navActiveClass = "text-green-600";
   const navInActiveClass =
     "text-gray-400 hover:text-green-600 ease-out duration-500";
@@ -99,7 +101,12 @@ const SideNav = () => {
           </svg>
         </Link>
       </div>
-      <div className="flex-grow-0 ">
+      <div
+        className="flex-grow-0 "
+        onClick={() => {
+          props.showAuthModal();
+        }}
+      >
         <IconGlobeOutline strokeWidth={2} colorClass="text-gray-400" />
       </div>
     </div>
@@ -124,4 +131,11 @@ const SideNavItem = ({ to, children, className, activeClassName, ...rest }) => {
     </li>
   );
 };
-export default SideNav;
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    showAuthModal: () => dispatch(showAuthModal()),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(SideNav);

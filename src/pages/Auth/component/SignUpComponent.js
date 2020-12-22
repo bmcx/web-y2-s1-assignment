@@ -3,7 +3,6 @@ import FormInput from "../../../common/components/FormInput";
 import FormInputPassword from "../../../common/components/FormInputPassword";
 
 const SignUpForm = (props) => {
-  const [step, setStep] = useState(1);
 
   return (
     <div className="bg-gray-50 rounded-lg w-96 shadow-lg p-4 z-20">
@@ -115,7 +114,7 @@ const SignUpForm = (props) => {
         <span className="border-b w-1/5 md:w-1/4"></span>
 
         <button
-          href="#"
+          onClick={()=>{props.setPage("SignUp")}}
           className="text-xs text-gray-500 uppercase hover:underline focus:outline-none"
         >
           or sign in

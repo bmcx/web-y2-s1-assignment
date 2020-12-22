@@ -18,12 +18,21 @@ export const signInWithGoogleAction = () => {
     const firebase = getFirebase();
     var provider = new firebase.auth.GoogleAuthProvider();
     try {
-      var res = await firebase
-        .auth()
-        .signInWithPopup(provider);
+      var res = await firebase.auth().signInWithPopup(provider);
       dispatch({ type: actionTypes.GOOGLE_LOGIN_SUCCESS, res });
     } catch (err) {
       dispatch({ type: actionTypes.GOOGLE_LOGIN_ERROR, err });
     }
+  };
+};
+
+export const showAuthModal = () => {
+  return (dispatch) => {
+    dispatch({ type: actionTypes.SHOW_AUTH_MODAL });
+  };
+};
+export const hideAuthModal = () => {
+  return (dispatch) => {
+    dispatch({ type: actionTypes.HIDE_AUTH_MODAL });
   };
 };

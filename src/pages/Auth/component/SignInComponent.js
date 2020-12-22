@@ -13,7 +13,7 @@ const SignInForm = (props) => {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { authError } = props;
+  const { authError, setPage } = props;
 
   useEffect(() => {
     if (authError) {
@@ -125,15 +125,15 @@ const SignInForm = (props) => {
 
       <div className="mt-4 flex items-center justify-between">
         <span className="border-b w-1/5 md:w-1/4"></span>
-        <NavLink to="/sign-up">
+      
           <button
-            href="#"
+            onClick={()=>{setPage("SignUp")}}
             disabled={loading}
             className="text-xs text-gray-500 uppercase hover:underline focus:outline-none"
           >
             or sign up
           </button>
-        </NavLink>
+
         <span className="border-b w-1/5 md:w-1/4"></span>
       </div>
     </div>
