@@ -10,6 +10,7 @@ import ProfilePage from "./pages/UserProfile/UserProfileContainer";
 import SideNav from "./common/containers/SideNavContainer";
 import AuthContainer from "./pages/Auth/AuthContainer";
 import LoadingContainer from "./pages/Loading/LoadingContainer";
+import AddProfileInfoContainer from "./pages/Auth/AddProfileInfoContainer";
 
 function App(props) {
   const { auth, profile, authModalVisible } = props;
@@ -72,6 +73,7 @@ function App(props) {
           profileLoaded={isLoaded(profile)}
         />
       </animated.div>
+      {/* <AddProfileInfoContainer /> */}
       {authModalTransitions.map(
         ({ item, key, props: style }) =>
           item && (

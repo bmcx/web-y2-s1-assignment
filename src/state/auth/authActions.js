@@ -36,3 +36,26 @@ export const hideAuthModal = () => {
     dispatch({ type: actionTypes.HIDE_AUTH_MODAL });
   };
 };
+
+export const signUpAction = (data) => {
+  return async (dispatch, getState, { getFirebase }) => {
+    const firebase = getFirebase();
+    try {
+      var res = await firebase
+        .auth()
+        .createUserWithEmailAndPassword(data.email, data.password);
+      await res.updateProfile({
+        displayName: `${data.firstName} ${data.lastName}`,
+      });
+      localStorage.setItem("firstName", data.firstName);
+      localStorage.setItem("lastName", data.lastName);
+      localStorage.setItem("nic", data.nic);
+      localStorage.setItem("phone", data.phone);
+      localStorage.setItem("email", data.email);
+      localStorage.setItem("uid", res.uid);
+      dispatch({ type: actionTypes.SIGN_UP_SUCCESS, res });
+    } catch (err) {
+      dispatch({ type: actionTypes.SIGN_UP_ERROR, err });
+    }
+  };
+};

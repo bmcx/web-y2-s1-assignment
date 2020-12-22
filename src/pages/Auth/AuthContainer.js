@@ -6,7 +6,7 @@ import SignInForm from "./component/SignInComponent";
 import SignUpForm from "./component/SignUpComponent";
 
 
-const AuthContainer = (props) => {
+const AuthContainer = () => {
   const [page, setPage] = useState("SignIn");
   const authFormTransitions = useTransition(page, null, {
     from: {
@@ -37,21 +37,11 @@ const AuthContainer = (props) => {
             </animated.div>
           )
       )}
-
-      <div className="z-20" onClick={() => setPage("SignIn")}>sign in</div>
-      <div className="z-20" onClick={() => setPage("SignUp")}>sign up</div>
       <div
         className="w-screen h-screen absolute bg-black opacity-40"
-        onClick={() => props.hideAuthModal()}
       ></div>
     </div>
   );
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    hideAuthModal: () => dispatch(hideAuthModal()),
-  };
-};
-
-export default connect(null, mapDispatchToProps)(AuthContainer);
+export default AuthContainer;

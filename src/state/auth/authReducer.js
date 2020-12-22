@@ -22,6 +22,18 @@ const auth = (state = initState, action) => {
         ...state,
         authError: msg,
       };
+    case actionTypes.SIGN_UP_SUCCESS:
+      return {
+        ...state,
+        authError: null,
+        authModalVisible: false,
+      };
+    case actionTypes.SIGN_UP_ERROR:
+      toast.error(msg);
+      return {
+        ...state,
+        authError: msg,
+      };
     case actionTypes.GOOGLE_LOGIN_SUCCESS:
       return {
         ...state,
