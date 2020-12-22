@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Route, Switch } from "react-router-dom";
 import SignInForm from "./component/SignInComponent";
 import SignUpForm from "./component/SignUpComponent";
 
@@ -9,7 +10,14 @@ const AuthContainer = (props) => {
       style={{ backdropFilter: "blur(5px)" }}
       className="w-screen h-screen absolute z-10 flex items-center justify-center"
     >
-      <SignInForm />
+      <Switch>
+        <Route path="/sign-in" exact>
+          <SignInForm />
+        </Route>
+        <Route path="/sign-up">
+          <SignUpForm />
+        </Route>
+      </Switch>
       <div className="w-screen h-screen absolute bg-black opacity-40"></div>
     </div>
   );

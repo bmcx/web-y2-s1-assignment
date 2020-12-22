@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
+import { NavLink } from "react-router-dom";
 import FormInput from "../../../common/components/FormInput";
 import FormInputPassword from "../../../common/components/FormInputPassword";
 import { IconSpinner } from "../../../common/components/Icons";
@@ -124,15 +125,15 @@ const SignInForm = (props) => {
 
       <div className="mt-4 flex items-center justify-between">
         <span className="border-b w-1/5 md:w-1/4"></span>
-
-        <button
-          href="#"
-          disabled={loading}
-          className="text-xs text-gray-500 uppercase hover:underline focus:outline-none"
-        >
-          or sign up
-        </button>
-
+        <NavLink to="/sign-up">
+          <button
+            href="#"
+            disabled={loading}
+            className="text-xs text-gray-500 uppercase hover:underline focus:outline-none"
+          >
+            or sign up
+          </button>
+        </NavLink>
         <span className="border-b w-1/5 md:w-1/4"></span>
       </div>
     </div>

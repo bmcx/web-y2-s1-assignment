@@ -1,38 +1,23 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { createStore, applyMiddleware, compose } from "redux";
-import { Provider, useSelector } from "react-redux";
+import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 import {
   reduxFirestore,
   getFirestore,
   createFirestoreInstance,
 } from "redux-firestore";
-import {
-  ReactReduxFirebaseProvider,
-  getFirebase,
-  isLoaded,
-} from "react-redux-firebase";
+import { ReactReduxFirebaseProvider, getFirebase } from "react-redux-firebase";
 import firebaseConfig from "./utils/firebaseConfig";
 import firebase from "firebase/app";
 import reportWebVitals from "./reportWebVitals";
 import rootReducer from "./state/rootReducer";
-import LoadingContainer from "./pages/Loading/LoadingContainer";
-import 'react-toastify/dist/ReactToastify.min.css';
+import "react-toastify/dist/ReactToastify.min.css";
 import "./assets/output.css";
 import "./assets/style.css";
 import App from "./App";
-
-function AuthIsLoaded({ children }) {
-  const auth = useSelector((state) => state.firebase.auth);
-  const profile = useSelector((state) => state.firebase.profile);
-  if (!isLoaded(auth)) {
-    return <LoadingContainer />;
-  } else {
-    console.log(profile?.token?.token);
-    return children;
-  }
-}
+import { BrowserRouter } from "react-router-dom";
 
 const store = createStore(
   rootReducer,
@@ -51,7 +36,7 @@ const profileSpecificProps = {
 };
 const rrfProps = {
   firebase,
-  config: {...firebaseConfig,...profileSpecificProps},
+  config: { ...firebaseConfig, ...profileSpecificProps },
   dispatch: store.dispatch,
   createFirestoreInstance,
 };
@@ -59,9 +44,9 @@ const rrfProps = {
 ReactDOM.render(
   <Provider store={store}>
     <ReactReduxFirebaseProvider {...rrfProps}>
-      <AuthIsLoaded>
+      <BrowserRouter>
         <App />
-      </AuthIsLoaded>
+      </BrowserRouter>
     </ReactReduxFirebaseProvider>
   </Provider>,
   document.getElementById("root")

@@ -13,7 +13,6 @@ class HomePage extends Component {
 
   render() {
     return (
-      
       <div className="flex w-full h-full">
         <div className="flex-1 pl-4 pr-4 h-full overflow-y-auto">
           <div className="py-4">
