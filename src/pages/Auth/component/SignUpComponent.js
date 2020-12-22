@@ -1,16 +1,46 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import FormInput from "../../../common/components/FormInput";
 import FormInputPassword from "../../../common/components/FormInputPassword";
+import { IconSpinner } from "../../../common/components/Icons";
 import LogoLong from "../../../common/components/LogoLong";
 import SignInWithGoogleButton from "../../../common/components/SignInWithGoogleButton";
 import {
   hideAuthModal,
+  resetAuthError,
   signInWithGoogleAction,
   signUpAction,
 } from "../../../state/auth/authActions";
 
 const SignUpForm = (props) => {
+  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [nic, setNic] = useState("");
+  const [phone, setPhone] = useState("");
+
+  const { authError } = props;
+
+  useEffect(() => {
+    if (authError) {
+      setLoading(false);
+    }
+  }, [authError]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setLoading(true);
+    props.signUp({
+      firstName,
+      lastName,
+      nic,
+      phone,
+      email,
+      password,
+    });
+  };
   return (
     <div className="bg-gray-50 rounded-lg w-96 shadow-lg p-4 z-20">
       <button
@@ -31,24 +61,33 @@ const SignUpForm = (props) => {
 
         <span className="border-b w-1/5 lg:w-1/4"></span>
       </div>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="mt-4 flex space-x-2">
           <div className="w-1/2">
             <FormInput
-              id="firstname"
+              id="firstName"
               labelText="First Name"
-              name="firstname"
+              name="firstName"
               type="text"
               required={true}
+              disabled={loading}
+              onChange={(e) => {
+                setFirstName(e.target.value);
+              }}
+              autoFocus={true}
             />
           </div>
           <div className="w-1/2">
             <FormInput
-              id="lastname"
+              id="lastName"
               labelText="Last Name"
-              name="lastname"
+              name="lastName"
               type="text"
               required={true}
+              disabled={loading}
+              onChange={(e) => {
+                setLastName(e.target.value);
+              }}
             />
           </div>
         </div>
@@ -59,6 +98,11 @@ const SignUpForm = (props) => {
             name="email"
             type="email"
             required={true}
+            disabled={loading}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+            validationError={authError ? true : false}
           />
         </div>
         <div className="mt-4">
@@ -67,6 +111,11 @@ const SignUpForm = (props) => {
             labelText="Password"
             name="password"
             required={true}
+            disabled={loading}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+            validationError={authError ? true : false}
           />
         </div>
         <div className="mt-4 flex space-x-2">
@@ -78,6 +127,12 @@ const SignUpForm = (props) => {
               type="text"
               required={true}
               tooltipText="NIC will be used to only confirm your identity"
+              onChange={(e) => {
+                setNic(e.target.value);
+              }}
+              minLength={10}
+              disabled={loading}
+              maxLength={13}
             />
           </div>
           <div className="w-1/2">
@@ -88,12 +143,28 @@ const SignUpForm = (props) => {
               type="text"
               required={true}
               tooltipText="Phone will be shared with keels staff"
+              onChange={(e) => {
+                setPhone(e.target.value);
+              }}
+              minLength={10}
+              disabled={loading}
+              maxLength={10}
             />
           </div>
         </div>
         <div className="mt-8">
-          <button className="bg-gray-700 text-white uppercase font-bold py-2 px-4 w-full rounded-lg hover:bg-gray-600 focus:outline-none focus:bg-gray-600 ease-out duration-300">
-            Sign up
+          <button
+            disabled={loading}
+            type="submit"
+            className="bg-gray-700 text-white uppercase font-bold py-2 px-4 w-full rounded-lg hover:bg-gray-600 focus:outline-none focus:bg-gray-600 ease-out duration-300"
+          >
+            {loading ? (
+              <div className="w-6 h-6 mx-auto">
+                <IconSpinner colorClass="text-gray-300" />
+              </div>
+            ) : (
+              "Sign in"
+            )}
           </button>
         </div>
       </form>
@@ -102,6 +173,7 @@ const SignUpForm = (props) => {
 
         <button
           onClick={() => {
+            props.resetAuthError();
             props.setPage("SignIn");
           }}
           className="text-xs text-gray-500 uppercase hover:underline focus:outline-none"
@@ -126,6 +198,7 @@ const mapDispatchToProps = (dispatch) => {
     signUp: (data) => dispatch(signUpAction(data)),
     signInWithGoogle: () => dispatch(signInWithGoogleAction()),
     hideAuthModal: () => dispatch(hideAuthModal()),
+    resetAuthError: () => dispatch(resetAuthError()),
   };
 };
 

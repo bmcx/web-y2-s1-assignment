@@ -36,6 +36,11 @@ export const hideAuthModal = () => {
     dispatch({ type: actionTypes.HIDE_AUTH_MODAL });
   };
 };
+export const resetAuthError = () => {
+  return (dispatch) => {
+    dispatch({ type: actionTypes.RESET_AUTH_ERROR });
+  };
+};
 
 export const signUpAction = (data) => {
   return async (dispatch, getState, { getFirebase }) => {

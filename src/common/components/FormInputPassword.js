@@ -8,7 +8,7 @@ const FormInputPassword = ({
   onChange,
   validationError,
   disabled,
-  minlength=6
+  minLength=6
 }) => {
   const [type, setType] = useState("password");
   return (
@@ -43,7 +43,7 @@ const FormInputPassword = ({
         onChange={onChange}
         disabled={disabled}
         required={required ?? false}
-        minlength={minlength}
+        minLength={minLength}
       />
     </>
   );

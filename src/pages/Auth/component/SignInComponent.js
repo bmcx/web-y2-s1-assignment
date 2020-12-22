@@ -8,6 +8,7 @@ import LogoLong from "../../../common/components/LogoLong";
 import SignInWithGoogleButton from "../../../common/components/SignInWithGoogleButton";
 import {
   hideAuthModal,
+  resetAuthError,
   signInAction,
   signInWithGoogleAction,
 } from "../../../state/auth/authActions";
@@ -111,6 +112,7 @@ const SignInForm = (props) => {
 
         <button
           onClick={() => {
+            props.resetAuthError();
             setPage("SignUp");
           }}
           disabled={loading}
@@ -135,6 +137,7 @@ const mapDispatchToProps = (dispatch) => {
     signIn: (data) => dispatch(signInAction(data)),
     signInWithGoogle: () => dispatch(signInWithGoogleAction()),
     hideAuthModal: () => dispatch(hideAuthModal()),
+    resetAuthError: () => dispatch(resetAuthError()),
   };
 };
 

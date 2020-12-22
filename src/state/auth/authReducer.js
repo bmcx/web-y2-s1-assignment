@@ -49,12 +49,19 @@ const auth = (state = initState, action) => {
     case actionTypes.SHOW_AUTH_MODAL:
       return {
         ...state,
+        authError: null,
         authModalVisible: true,
       };
     case actionTypes.HIDE_AUTH_MODAL:
       return {
         ...state,
+        authError: null,
         authModalVisible: false,
+      };
+    case actionTypes.RESET_AUTH_ERROR:
+      return {
+        ...state,
+        authError: null,
       };
 
     default:
