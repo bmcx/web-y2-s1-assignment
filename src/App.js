@@ -51,7 +51,7 @@ function App(props) {
       </animated.div>
       <ToastContainer position="top-center" toastClassName="rounded-lg" />
       {/* <AuthContainer /> */}
-      <div className="w-screen h-screen p-2 bg-gray-50 flex relative">
+      <div className="w-screen h-screen py-2 pr-2 bg-gray-50 flex relative overflow-hidden">
         <SideNav />
 
         {transitions.map(({ item, props, key }) => (
@@ -63,6 +63,7 @@ function App(props) {
             <Switch location={item}>
               <Route path="/" component={HomePage} exact />
               <Route path="/profile" component={ProfilePage} />
+              <Route path="*" component={()=> <div>Not found</div>} />
             </Switch>
           </animated.div>
         ))}

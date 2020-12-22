@@ -12,7 +12,7 @@ const SideNav = () => {
   const navInActiveClass =
     "text-gray-400 hover:text-green-600 ease-out duration-500";
   return (
-    <div className="z-10 w-20 bg-gray-700 mr-2 px-4 py-6 flex flex-col items-center">
+    <div className="z-10 w-20 bg-gray-50 mr-2 px-4 py-6 flex flex-col items-center">
       <div className="flex-grow-0 w-10 h-10 bg-green-500 rounded mb-6 shadow-md hover:shadow-lg ease-out duration-300">
         <svg
           className="text-white"
