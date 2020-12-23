@@ -15,6 +15,8 @@ const FormInput = ({
   autoFocus = false,
   minLength = 0,
   maxLength = 100,
+  defaultValue = "",
+  placeholder = "",
 }) => (
   <>
     <div className="flex justify-between items-center">
@@ -49,6 +51,8 @@ const FormInput = ({
       required={required}
       minLength={minLength}
       maxLength={maxLength}
+      defaultValue={defaultValue}
+      placeholder={placeholder}
     />
   </>
 );
