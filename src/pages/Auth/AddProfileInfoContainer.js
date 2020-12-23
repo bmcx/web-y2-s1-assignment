@@ -4,8 +4,14 @@ import LogoLong from "../../common/components/LogoLong";
 
 const AddProfileInfoContainer = (props) => {
   const [image, setImage] = useState({ preview: "", raw: null });
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [nic, setNic] = useState("");
+  const [phone, setPhone] = useState("");
 
-   const handleFileChange = async (e) => {
+  const handleFileChange = async (e) => {
     if (e.target.files && e.target.files[0]) {
       let src = await new Promise((resolve) => {
         const reader = new FileReader();
@@ -17,11 +23,7 @@ const AddProfileInfoContainer = (props) => {
         raw: e.target.files[0],
       });
     }
-
-    console.log(e.target.files[0]);
-  }
-
-
+  };
 
   return (
     <div
@@ -46,7 +48,7 @@ const AddProfileInfoContainer = (props) => {
             <div className="w-1/2">
               <div className="flex flex-row items-center justify-center">
                 <label htmlFor="photo">
-                  <div className="w-32 h-32 bg-gray-300 overflow-hidden rounded-full flex items-center justify-center">
+                  <div className="w-32 h-32 bg-gray-300 shadow-md overflow-hidden rounded-full flex items-center justify-center">
                     {image.preview ? (
                       <img
                         src={image.preview}
@@ -73,18 +75,24 @@ const AddProfileInfoContainer = (props) => {
             </div>
             <div className="w-1/2">
               <FormInput
-                id="firstname"
+                id="firstName"
                 labelText="First Name"
-                name="firstname"
+                name="firstName"
                 type="text"
                 required={true}
+                onChange={(e) => {
+                  setFirstName(e.target.value);
+                }}
               />
               <FormInput
-                id="lastname"
+                id="lastName"
                 labelText="Last Name"
-                name="lastname"
+                name="lastName"
                 type="text"
                 required={true}
+                onChange={(e) => {
+                  setLastName(e.target.value);
+                }}
               />
             </div>
           </div>
@@ -96,6 +104,9 @@ const AddProfileInfoContainer = (props) => {
               name="email"
               type="email"
               required={true}
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
             />
           </div>
 
@@ -108,6 +119,9 @@ const AddProfileInfoContainer = (props) => {
                 type="text"
                 required={true}
                 tooltipText="NIC will be used to only confirm your identity"
+                onChange={(e) => {
+                  setNic(e.target.value);
+                }}
               />
             </div>
             <div className="w-1/2">
@@ -118,6 +132,9 @@ const AddProfileInfoContainer = (props) => {
                 type="text"
                 required={true}
                 tooltipText="Phone will be shared with keels staff"
+                onChange={(e) => {
+                  setPhone(e.target.value);
+                }}
               />
             </div>
           </div>
