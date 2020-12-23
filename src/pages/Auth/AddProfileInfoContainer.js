@@ -5,7 +5,6 @@ import LogoLong from "../../common/components/LogoLong";
 const AddProfileInfoContainer = (props) => {
   const [image, setImage] = useState({ preview: "", raw: null });
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [nic, setNic] = useState("");
@@ -83,6 +82,7 @@ const AddProfileInfoContainer = (props) => {
                 onChange={(e) => {
                   setFirstName(e.target.value);
                 }}
+                defaultValue={firstName}
               />
               <FormInput
                 id="lastName"
@@ -93,6 +93,7 @@ const AddProfileInfoContainer = (props) => {
                 onChange={(e) => {
                   setLastName(e.target.value);
                 }}
+                defaultValue={lastName}
               />
             </div>
           </div>
@@ -107,6 +108,7 @@ const AddProfileInfoContainer = (props) => {
               onChange={(e) => {
                 setEmail(e.target.value);
               }}
+              defaultValue={email}
             />
           </div>
 
@@ -122,6 +124,7 @@ const AddProfileInfoContainer = (props) => {
                 onChange={(e) => {
                   setNic(e.target.value);
                 }}
+                defaultValue={nic}
               />
             </div>
             <div className="w-1/2">
@@ -135,6 +138,7 @@ const AddProfileInfoContainer = (props) => {
                 onChange={(e) => {
                   setPhone(e.target.value);
                 }}
+                defaultValue={[phone]}
               />
             </div>
           </div>
