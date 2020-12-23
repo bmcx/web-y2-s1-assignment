@@ -42,6 +42,17 @@ export const resetAuthError = () => {
   };
 };
 
+export const signOutAction = () => {
+  return async (dispatch, getState, { getFirebase }) => {
+    const firebase = getFirebase();
+    try {
+      var res = await firebase.auth().signOut();
+      dispatch({ type: actionTypes.SIGN_OUT_SUCCESS, res });
+    } catch (err) {
+      dispatch({ type: actionTypes.SIGN_OUT_ERROR, err });
+    }
+  };
+};
 export const signUpAction = (data) => {
   return async (dispatch, getState, { getFirebase }) => {
     const firebase = getFirebase();
@@ -62,5 +73,23 @@ export const signUpAction = (data) => {
     } catch (err) {
       dispatch({ type: actionTypes.SIGN_UP_ERROR, err });
     }
+  };
+};
+
+export const completeProfileAction = (data) => {
+  return async (dispatch, getState, { getFirebase }) => {
+    const firebase = getFirebase();
+    // try {
+    //   var res = await firebase
+    //     .auth()
+    //     .createUserWithEmailAndPassword(data.email, data.password);
+    //   await res.updateProfile({
+    //     displayName: `${data.firstName} ${data.lastName}`,
+    //   });
+
+    //   dispatch({ type: actionTypes.SIGN_UP_SUCCESS, res });
+    // } catch (err) {
+    //   dispatch({ type: actionTypes.SIGN_UP_ERROR, err });
+    // }
   };
 };

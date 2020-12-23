@@ -34,6 +34,19 @@ const auth = (state = initState, action) => {
         ...state,
         authError: msg,
       };
+    case actionTypes.SIGN_OUT_SUCCESS:
+      toast.success("Signed out successfully");
+      return {
+        ...state,
+        authError: null,
+        authModalVisible: false,
+      };
+    case actionTypes.SIGN_OUT_ERROR:
+      toast.error(msg);
+      return {
+        ...state,
+        authError: null,
+      };
     case actionTypes.GOOGLE_LOGIN_SUCCESS:
       return {
         ...state,

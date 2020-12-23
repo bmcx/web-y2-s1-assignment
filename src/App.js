@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Switch, Route } from "react-router-dom";
 import { __RouterContext } from "react-router";
 import { connect } from "react-redux";
-import { isLoaded } from "react-redux-firebase";
+import { isEmpty, isLoaded } from "react-redux-firebase";
 import { ToastContainer } from "react-toastify";
 import { useSpring, useTransition, animated } from "react-spring";
 import HomePage from "./pages/HomePage/HomePageContainer";
@@ -40,7 +40,6 @@ function App(props) {
       },
     }
   );
-
   const loadingProps = useSpring({
     opacity: loaded ? 0 : 1,
     height: loaded ? "0vh" : "100vh",
@@ -73,7 +72,9 @@ function App(props) {
           profileLoaded={isLoaded(profile)}
         />
       </animated.div>
-      {/* <AddProfileInfoContainer /> */}
+      {!isEmpty(auth) && profile.profileCompleted === undefined ? (
+        <AddProfileInfoContainer auth={auth} />
+      ) : null}
       {authModalTransitions.map(
         ({ item, key, props: style }) =>
           item && (
@@ -88,7 +89,7 @@ function App(props) {
       )}
 
       <div className="w-screen h-screen py-2 pr-2 bg-gray-50 flex relative overflow-hidden">
-        <SideNav />
+        <SideNav auth={auth} profile={profile} />
         {routeTransitions.map(({ item, props, key }) => (
           <animated.div
             key={key}
