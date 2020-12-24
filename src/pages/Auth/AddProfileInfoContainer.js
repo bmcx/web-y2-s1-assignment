@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import FormInput from "../../common/components/FormInput";
 import { IconSpinner } from "../../common/components/Icons";
-import LogoLong from "../../common/components/LogoLong";
 import { completeProfileAction } from "../../state/auth/authActions";
 
 const AddProfileInfoContainer = ({ auth, authError, completeProfile }) => {
