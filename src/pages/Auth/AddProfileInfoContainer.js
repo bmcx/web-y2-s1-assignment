@@ -8,7 +8,6 @@ import { completeProfileAction } from "../../state/auth/authActions";
 const AddProfileInfoContainer = ({ auth, authError, completeProfile }) => {
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState({ preview: "", raw: null });
-  const [email, setEmail] = useState(auth.email);
   const [firstName, setFirstName] = useState(
     localStorage.getItem("firstName") ?? ""
   );
@@ -90,13 +89,13 @@ const AddProfileInfoContainer = ({ auth, authError, completeProfile }) => {
     if (validation) return;
 
     setLoading(true);
-    // completeProfile({
-    //   firstName,
-    //   lastName,
-    //   nic,
-    //   phone,
-    //   email,
-    // });
+    completeProfile({
+      firstName,
+      lastName,
+      nic,
+      phone,
+      photo: image.raw,
+    });
   };
 
   return (
