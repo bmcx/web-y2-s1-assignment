@@ -76,6 +76,16 @@ const auth = (state = initState, action) => {
         ...state,
         authError: null,
       };
+    case actionTypes.PROFILE_COMPLETE_SUCCESS:
+      return {
+        ...state,
+        authError: null,
+      };
+    case actionTypes.PROFILE_COMPLETE_ERROR:
+      return {
+        ...state,
+        authError: null,
+      };
 
     default:
       return state;

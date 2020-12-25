@@ -121,7 +121,13 @@ const AddProfileInfoContainer = ({ auth, authError, completeProfile }) => {
             <div className="w-1/3">
               <div className="flex flex-row items-center justify-center">
                 <label htmlFor="photo">
-                  <div className="w-32 h-32 bg-gray-300 shadow-md overflow-hidden rounded-full flex items-center justify-center">
+                  <div
+                    className={`${
+                      inputError.photo
+                        ? "ring-red-400 ring-2 border-red-500"
+                        : ""
+                    } w-32 h-32 bg-gray-300 shadow-md overflow-hidden rounded-full flex items-center justify-center`}
+                  >
                     {image.preview ? (
                       <img
                         src={image.preview}
@@ -142,7 +148,7 @@ const AddProfileInfoContainer = ({ auth, authError, completeProfile }) => {
                   id="photo"
                   type="file"
                   onChange={handleFileChange}
-                  accept="image/png"
+                  accept="image/jpg"
                 />
               </div>
             </div>
@@ -190,6 +196,8 @@ const AddProfileInfoContainer = ({ auth, authError, completeProfile }) => {
                 }}
                 defaultValue={nic}
                 validationError={inputError.nic}
+                minLength={10}
+                maxLength={13}
               />
             </div>
             <div className="w-1/2">
@@ -206,6 +214,8 @@ const AddProfileInfoContainer = ({ auth, authError, completeProfile }) => {
                 }}
                 defaultValue={[phone]}
                 validationError={inputError.phone}
+                minLength={10}
+                maxLength={10}
               />
             </div>
           </div>

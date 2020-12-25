@@ -77,19 +77,28 @@ export const signUpAction = (data) => {
 };
 
 export const completeProfileAction = (data) => {
-  return async (dispatch, getState, { getFirebase }) => {
+  return async (dispatch, getState, { getFirebase, getFirestore }) => {
     const firebase = getFirebase();
-    // try {
-    //   var res = await firebase
-    //     .auth()
-    //     .createUserWithEmailAndPassword(data.email, data.password);
-    //   await res.updateProfile({
-    //     displayName: `${data.firstName} ${data.lastName}`,
-    //   });
+    const firestore = getFirestore();
+    let state = getState();
+    let userId = state?.firebase?.auth?.uid;
+    var storageRef = firebase.storage().ref();
+    var photoRef = storageRef.child(`/users/${userId}/profilePicture.png`);
+    await photoRef.put(data.photo);
+    let photoUrl = await photoRef.getDownloadURL();
+    try {
+      await firestore.collection("users").doc(userId).set({
+        firstName: data.firstName,
+        lastName: data.lastName,
+        nic: data.nic,
+        phone: data.phone,
+        photo: photoUrl,
+        profileCompleted: true,
+      });
 
-    //   dispatch({ type: actionTypes.SIGN_UP_SUCCESS, res });
-    // } catch (err) {
-    //   dispatch({ type: actionTypes.SIGN_UP_ERROR, err });
-    // }
+      dispatch({ type: actionTypes.PROFILE_COMPLETE_SUCCESS, res: "" });
+    } catch (err) {
+      dispatch({ type: actionTypes.PROFILE_COMPLETE_ERROR, err });
+    }
   };
 };
