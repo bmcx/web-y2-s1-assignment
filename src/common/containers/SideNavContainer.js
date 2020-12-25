@@ -36,57 +36,64 @@ const SideNav = (props) => {
       </div>
       <nav className="my-10 flex-grow">
         <ul>
-          <SideNavItem to="/">
-            {(isActive) => (
-              <div className="flex content-center">
-                <IconHomeOutline
-                  strokeWidth={2}
-                  colorClass={isActive ? navActiveClass : navInActiveClass}
-                />
-                <div
-                  className={`w-1 h-1 rounded-sm ${
-                    isActive ? "bg-green-600" : ""
-                  } self-center`}
-                ></div>
-              </div>
-            )}
-          </SideNavItem>
-          <SideNavItem to="/messages">
-            {(isActive) => (
-              <div className="flex content-center">
-                <IconChatOutline
-                  strokeWidth={2}
-                  colorClass={isActive ? navActiveClass : navInActiveClass}
-                />
-                <div
-                  className={`w-1 h-1 rounded-sm ${
-                    isActive ? "bg-green-600" : ""
-                  } self-center`}
-                ></div>
-              </div>
-            )}
-          </SideNavItem>
+          <NavTooltip tooltipText="Home">
+            <SideNavItem to="/">
+              {(isActive) => (
+                <div className="flex content-center">
+                  <IconHomeOutline
+                    strokeWidth={2}
+                    colorClass={isActive ? navActiveClass : navInActiveClass}
+                  />
+                  <div
+                    className={`w-1 h-1 rounded-sm ${
+                      isActive ? "bg-green-600" : ""
+                    } self-center`}
+                  ></div>
+                </div>
+              )}
+            </SideNavItem>
+          </NavTooltip>
+          <NavTooltip tooltipText="Messages">
+            <SideNavItem to="/messages">
+              {(isActive) => (
+                <div className="flex content-center">
+                  <IconChatOutline
+                    strokeWidth={2}
+                    colorClass={isActive ? navActiveClass : navInActiveClass}
+                  />
+                  <div
+                    className={`w-1 h-1 rounded-sm ${
+                      isActive ? "bg-green-600" : ""
+                    } self-center`}
+                  ></div>
+                </div>
+              )}
+            </SideNavItem>
+          </NavTooltip>
         </ul>
         <ul>
-          <SideNavItem to="/settings">
-            {(isActive) => (
-              <div className="flex content-center">
-                <IconSettingsOutline
-                  strokeWidth={2}
-                  colorClass={isActive ? navActiveClass : navInActiveClass}
-                />
-                <div
-                  className={`w-1 h-1 rounded-sm ${
-                    isActive ? "bg-green-600" : ""
-                  } self-center`}
-                ></div>
-              </div>
-            )}
-          </SideNavItem>
+          <NavTooltip tooltipText="Settings">
+            <SideNavItem to="/settings">
+              {(isActive) => (
+                <div className="flex content-center">
+                  <IconSettingsOutline
+                    strokeWidth={2}
+                    colorClass={isActive ? navActiveClass : navInActiveClass}
+                  />
+                  <div
+                    className={`w-1 h-1 rounded-sm ${
+                      isActive ? "bg-green-600" : ""
+                    } self-center`}
+                  ></div>
+                </div>
+              )}
+            </SideNavItem>
+          </NavTooltip>
         </ul>
       </nav>
-      <ProfileNav {...props} />
-
+      <NavTooltip tooltipText="Profile">
+        <ProfileNav {...props} />
+      </NavTooltip>
       <div className="flex-grow-0 ">
         <IconGlobeOutline strokeWidth={2} colorClass="text-gray-400" />
       </div>
@@ -111,7 +118,7 @@ const ProfileNav = ({ auth, profile, showAuthModal, signOut }) => {
 
   const handleSignOut = () => {
     signOut();
-    history.push("/")
+    history.push("/");
   };
 
   return (
