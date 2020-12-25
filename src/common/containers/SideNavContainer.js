@@ -91,9 +91,9 @@ const SideNav = (props) => {
           </NavTooltip>
         </ul>
       </nav>
-      <NavTooltip tooltipText="Profile">
-        <ProfileNav {...props} />
-      </NavTooltip>
+
+      <ProfileNav {...props} />
+
       <div className="flex-grow-0 ">
         <IconGlobeOutline strokeWidth={2} colorClass="text-gray-400" />
       </div>

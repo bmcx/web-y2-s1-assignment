@@ -15,7 +15,7 @@ const NavTooltip = ({ children, tooltipText }) => {
   return (
     <div className="relative flex items-center z-20" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <div
-        className="absolute whitespace-no-wrap uppercase bg-gray-100 text-sm text-gray-600 shadow-md px-4 py-2 rounded flex items-center transition-all duration-150 "
+        className="absolute whitespace-no-wrap uppercase bg-gray-700 text-sm text-gray-50 shadow-md px-4 py-2 rounded flex items-center transition-all duration-150 "
         style={{ left: "100%", opacity: 0, top:"-6px" }}
         ref={tipRef}
         
