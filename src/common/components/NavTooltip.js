@@ -15,16 +15,16 @@ const NavTooltip = ({ children, tooltipText }) => {
   return (
     <div className="relative flex items-center z-20" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <div
-        className="absolute whitespace-no-wrap bg-gray-700 text-white px-4 py-2 rounded flex items-center transition-all duration-150 w-32"
-        style={{ left: "100%", opacity: 0 }}
+        className="absolute whitespace-no-wrap uppercase bg-gray-100 text-sm text-gray-600 shadow-md px-4 py-2 rounded flex items-center transition-all duration-150 "
+        style={{ left: "100%", opacity: 0, top:"-6px" }}
         ref={tipRef}
         
       >
         <div
-          className="bg-gray-700 h-3 w-3 absolute"
+          className="bg-gray-100 h-3 w-3 absolute shadow-md"
           style={{ left: "-6px", transform: "rotate(45deg)" }}
         />
-        Chandima Bandara
+        {tooltipText}
       </div>
       <div  >
         {children}
