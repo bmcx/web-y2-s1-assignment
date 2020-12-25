@@ -145,10 +145,10 @@ const ProfileNav = ({ auth, profile, showAuthModal, signOut }) => {
 
       <button
         onClick={handleIconClick}
-        className="w-10 h-10 focus:outline-none bg-gray-600 rounded-full shadow-md hover:shadow-lg ease-out duration-300"
+        className="w-10 h-10 overflow-hidden focus:outline-none bg-gray-600 rounded-full shadow-md hover:shadow-lg ease-out duration-300"
       >
         {signedIn ? (
-          <img src={""} alt="" className="min-h-full w-max" />
+          <img src={profile.photo} alt="" className="min-h-full w-max" />
         ) : (
           <IconNavProfile />
         )}
