@@ -4,9 +4,10 @@ import Profilek from "./component/keelsuserprofile/keelsuserprofile";
 import ProfileF from "./component/Farmeruserprofile/FarmerUserProfile";
 import Profilen from "./component/keelsuserprofile/keelsshowdata";
 import ProfileStructure from "./component/ProfileStructure";
+import DepartmentP from "./component/Departmentuserprofile/DepartmentP";
 const ProfilePage = () => (
   <div>
-    <ProfileStructure />
+    <DepartmentP />
     {/* <Profile />
     <Profilek />
     <ProfileF />
