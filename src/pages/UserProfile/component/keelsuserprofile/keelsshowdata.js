@@ -5,17 +5,6 @@ import React, { Component } from "react";
 class keelsshowdata extends Component {
   render() {
     return (
-      <div className="h-full">
-        <div className="flex bg-green-200 w-full h-60  rounded-lg">
-          <div className="bottom-0 self-end flex flex-row ">
-            <div className="bg-gray-400 w-32 h-32 m-5 rounded-lg shadow-2xl ml-16 mt-10 absolute">{/* profile picture */}</div>
-            <div className="flex flex-col mt-10 leading-5 text-sm absolute ml-56	">
-              <div>Mr.R.k.S.Ransika</div>
-              <div>Keels Stock Manager,keels(pvt)Ltd</div>
-              <div>srnsika@gmail.com</div>
-              <div>23434490v</div>
-            </div>
-            <div className="bg-gray-200 w-full h-32  rounded-lg shadow-lg ">{/* profile picture */}</div>
       <div class="w-full relative mt-4 shadow-2xl rounded my-24 overflow-hidden">
         <div class="top h-64 w-full bg-blue-600 rounded overflow-hidden relative">
           <img
@@ -187,6 +176,7 @@ class keelsshowdata extends Component {
           </div>
         </div>
       </div>
+    </div>
     );
   }
 }
