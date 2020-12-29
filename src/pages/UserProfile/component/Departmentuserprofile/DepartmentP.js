@@ -4,7 +4,7 @@ class DepartmentP extends Component {
   render() {
     return (
       <div class="w-full relative mt-4 shadow-2xl rounded my-24 overflow-hidden">
-        <div class="top h-64 w-full bg-blue-600 rounded overflow-hidden relative">
+        <div class="h-64 w-full bg-blue-600 rounded overflow-hidden relative">
           <img
             src="https://images.unsplash.com/photo-1542223189-67a03fa0f0bd?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1504&q=80"
             alt=""
