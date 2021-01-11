@@ -66,6 +66,13 @@ const ResultListItem = ({ data, onClick, auth, searchTerm }) => {
                   color={category.styles.bgColor}
                 />
               ))}
+              {categories.length === 0 ? (
+                <CategoryChip
+                  key="loading"
+                  name="Loading ..."
+                  color="bg-gray-300 animate-pulse"
+                />
+              ) : null}
             </div>
             <div className="flex-shrink-0">
               <div className=" m-auto">

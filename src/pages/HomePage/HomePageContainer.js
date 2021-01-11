@@ -7,12 +7,13 @@ import { animated, useTrail } from "react-spring";
 import { compose } from "redux";
 import ToggleSwitch from "../../common/components/ToggleSwitch";
 import ResultListItem from "./component/ResultListItem";
-import { IconSearch } from "../../common/components/Icons";
+import { IconSearch, IconSpinner } from "../../common/components/Icons";
 const sevenDaysFromToday = moment().subtract(7, "days").toDate();
 
 const HomePage = (props) => {
   const [loading, setLoading] = useState(true);
   const [results, setResults] = useState([]);
+  const [filteredResults, setFilteredResults] = useState([]);
   const [filterCategory, setFilterCategory] = useState(null);
   const [searchTerm, setSearchTerm] = useState(null);
   const [showMap, setShowMap] = useState(true);
@@ -21,17 +22,17 @@ const HomePage = (props) => {
   const [map, setMap] = useState(null);
 
   useEffect(() => {
-    if (isLoaded(props.harvests, props.categories) && !searchTerm) {
+    if (isLoaded(props.harvests, props.categories)) {
+      setCategories(props.categories);
       setLoading(false);
     }
-    if (!loading) {
+    if (!loading && !searchTerm && !filterCategory) {
+      setFilteredResults(props.harvests);
       setResults(props.harvests);
-      // console.log(1);
-      setCategories(props.categories);
     }
-  }, [loading, props, searchTerm]);
+  }, [filterCategory, loading, props, searchTerm]);
 
-  const trail = useTrail(results.length, {
+  const trail = useTrail(filteredResults.length, {
     from: { marginLeft: 0, opacity: 0 },
     to: { marginLeft: 0, opacity: 1 },
   });
@@ -56,7 +57,7 @@ const HomePage = (props) => {
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png"
         />
-        {results.map((result) => {
+        {filteredResults.map((result) => {
           return (
             <Marker
               position={[
@@ -74,12 +75,13 @@ const HomePage = (props) => {
         })}
       </MapContainer>
     ),
-    [results, selectedResult]
+    [filteredResults, selectedResult]
   );
 
   const filterResults = (term) => {
+    term = term.trim();
     let _results = [];
-    for (const result of props.harvests) {
+    for (const result of results) {
       if (
         result.title.toLowerCase().indexOf(term.toLowerCase()) !== -1 ||
         result.address.city.toLowerCase().indexOf(term.toLowerCase()) !== -1 ||
@@ -90,9 +92,39 @@ const HomePage = (props) => {
         _results.push(result);
       }
     }
-    setResults(_results);
+    setFilteredResults(_results);
     setSearchTerm(term);
   };
+
+  const filterResultsByCategory = (category) => {
+    let _results = [];
+    for (const result of props.harvests) {
+      if (result.categories.find((cat) => cat.id === category)) {
+        _results.push(result);
+      }
+    }
+    setFilteredResults(_results);
+    setResults(_results)
+    setFilterCategory(filterCategory === category ? null : category);
+  };
+
+  const clearFilter = () => {
+    setResults(props.harvests);
+    setFilteredResults(props.harvests);
+    setSearchTerm(null);
+    setFilterCategory(null);
+  };
+  if (loading)
+    return (
+      <div className="flex w-full h-full flex-col justify-center items-center">
+        <div className="animate-pulse w-10 h-10 text-gray-500 mb-2">
+          <IconSpinner />
+        </div>
+        <div className="text-md font-lato animate-pulse text-gray-900">
+          Loading
+        </div>
+      </div>
+    );
   return (
     <div className="flex w-full h-full">
       <div className="flex-1 pl-4 pr-4 h-full overflow-y-auto">
@@ -102,12 +134,16 @@ const HomePage = (props) => {
               className="rounded-2xl w-full py-2 px-6 font-bold text-gray-500 leading-tight bg-gray-100 focus:outline-none"
               id="search"
               type="text"
+              autoComplete="off"
               placeholder="Search"
               onChange={(e) => filterResults(e.target.value)}
             />
             <div className="p-2">
               {searchTerm ? (
-                <button className="text-gray-500 p-1 hover:text-gray-600 focus:outline-none w-8 h-8 ease-out duration-300">
+                <button
+                  onClick={clearFilter}
+                  className="text-gray-500 p-1 hover:text-gray-600 focus:outline-none w-8 h-8 ease-out duration-300"
+                >
                   🗙
                 </button>
               ) : (
@@ -118,15 +154,24 @@ const HomePage = (props) => {
             </div>
           </div>
         </div>
-        <div className="flex mb-10">
-          <div className="flex-grow flex space-x-1">
+        <div className="flex mb-8 items-center">
+          <div className="flex-grow flex space-x-1 items-center">
             {categories.map((category) => (
               <SearchChip
                 key={category.id}
                 name={category.name}
-                onClick={() => setFilterCategory(category.id)}
+                active={filterCategory === category.id}
+                onClick={() => filterResultsByCategory(category.id)}
               />
             ))}
+            {filterCategory ? (
+              <button
+                onClick={clearFilter}
+                className="text-xs hover:underline focus:outline-none"
+              >
+                Clear filter
+              </button>
+            ) : null}
           </div>
           <div className="flex-shrink-0 flex space-x-1">
             <ToggleSwitch
@@ -139,11 +184,13 @@ const HomePage = (props) => {
           </div>
         </div>
         {searchTerm ? (
-          <div className="flex content-center mb-10 sticky top-0 bg-gray-50 pb-4 px-2 shadow-sm rounded-b-sm">
+          <div className="flex content-center mb-8 sticky top-0 bg-gray-50 pb-4 px-2 shadow-sm rounded-b-sm">
             <div className="flex-grow flex space-x-1">
               <h2 className="font-bold text-4xl text-gray-700">{searchTerm}</h2>
               <h4 className="text-xl text-gray-400 self-end pl-2 ">
-                {`${results.length} Result${results.length > 1 ? "s" : ""}`}
+                {`${filteredResults.length} Result${
+                  filteredResults.length !== 1 ? "s" : ""
+                }`}
               </h4>
             </div>
             <div className="flex-shrink-0 flex space-x-1">
@@ -169,31 +216,30 @@ const HomePage = (props) => {
           </div>
         ) : null}
         <div className="flex flex-col">
-          {!loading &&
-            trail.map((props, index) => {
-              return (
-                <animated.div
-                  key={results[index].id}
-                  style={props}
-                  className="box"
-                  onMouseEnter={() => {
-                    map.setView(
-                      [
-                        results[index]?.location?.latitude,
-                        results[index]?.location?.longitude,
-                      ],
-                      10
-                    );
-                    setSelectedResult(results[index]);
-                  }}
-                >
-                  <ResultListItem
-                    data={results[index]}
-                    searchTerm={searchTerm}
-                  />
-                </animated.div>
-              );
-            })}
+          {trail.map((props, index) => {
+            return (
+              <animated.div
+                key={filteredResults[index].id}
+                style={props}
+                className="box"
+                onMouseEnter={() => {
+                  map.setView(
+                    [
+                      filteredResults[index]?.location?.latitude,
+                      filteredResults[index]?.location?.longitude,
+                    ],
+                    10
+                  );
+                  setSelectedResult(filteredResults[index]);
+                }}
+              >
+                <ResultListItem
+                  data={filteredResults[index]}
+                  searchTerm={searchTerm}
+                />
+              </animated.div>
+            );
+          })}
         </div>
       </div>
       {showMap ? (
@@ -209,8 +255,10 @@ const SearchChip = ({ name, onClick, active = false }) => (
     onClick={onClick}
     className={`flex select-none justify-center items-center m-1 font-medium 
     py-1 px-2 rounded-lg bg-gray-100 ${
-      active ? "text-green-600" : "text-gray-400"
-    } hover:text-green-600 hover:shadow-lg shadow-md ease-out duration-400 cursor-pointer transition-all`}
+      active
+        ? "text-green-700 bg-gray-200"
+        : "text-gray-400 hover:text-green-600 "
+    } hover:shadow-lg shadow-md ease-out duration-400 cursor-pointer transition-all`}
   >
     <div className="text-sm font-bold">{name}</div>
   </div>
