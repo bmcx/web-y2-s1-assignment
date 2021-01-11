@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 const ToggleSwitch = (props) => {
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(props.initialValue);
   return (
     <div className="flex flex-row content-center">
       <p className="block text-sm pr-1 font-bold text-gray-600">{`${props.label}`}</p>

@@ -7,7 +7,7 @@ import {
   } from "../../../common/components/Icons";
 
 const ResultListItem = ({ name, color, onClick }) => (
-  <div className="flex content-center space-x-4 cursor-pointer mb-10">
+  <div className="flex hover:bg-gray-100 content-center space-x-4 cursor-pointer mb-10 hover:shadow-lg rounded-2xl pr-2 transition-all duration-200 ease-out">
     <div className="flex-shrink-0">
       <div className=" w-40 h-40 rounded-2xl bg-gray-400"></div>
     </div>

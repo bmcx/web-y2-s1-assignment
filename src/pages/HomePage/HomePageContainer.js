@@ -1,95 +1,103 @@
-import React, { Component } from "react";
+import moment from "moment";
+import React, { Component, useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { connect } from "react-redux";
+import { firestoreConnect, isLoaded } from "react-redux-firebase";
+import { compose } from "redux";
 import ToggleSwitch from "../../common/components/ToggleSwitch";
 import ResultListItem from "./component/ResultListItem";
 
-class HomePage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loading: false,
-    };
-  }
+const sevenDaysFromToday = moment().subtract(7, "days").toDate();
 
-  render() {
-    return (
-      <div className="flex w-full h-full">
-        <div className="flex-1 pl-4 pr-4 h-full overflow-y-auto">
-          <div className="py-4">
-            <div className="bg-gray-100 flex items-center rounded-2xl shadow-sm">
-              <input
-                className="rounded-2xl w-full py-2 px-6 font-bold text-gray-500 leading-tight bg-gray-100 focus:outline-none"
-                id="search"
-                type="text"
-                placeholder="Search"
-              />
-              <div className="p-2">
-                <button className="text-gray-300 p-1 hover:text-gray-600 focus:outline-none w-8 h-8 ease-out duration-300">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                    />
-                  </svg>
-                </button>
-              </div>
+const HomePage = (props) => {
+  const [loading, setLoading] = useState(true);
+  const [results, setResults] = useState([]);
+  const [filterCategory, setFilterCategory] = useState(null);
+  const [showMap, setShowMap] = useState(true);
+  useEffect(() => {
+    if (isLoaded(props.harvests, props.categories)) {
+      setLoading(false);
+    }
+  }, [props]);
+  return (
+    <div className="flex w-full h-full">
+      <div className="flex-1 pl-4 pr-4 h-full overflow-y-auto">
+        <div className="py-4">
+          <div className="bg-gray-100 flex items-center rounded-2xl shadow-sm">
+            <input
+              className="rounded-2xl w-full py-2 px-6 font-bold text-gray-500 leading-tight bg-gray-100 focus:outline-none"
+              id="search"
+              type="text"
+              placeholder="Search"
+            />
+            <div className="p-2">
+              <button className="text-gray-300 p-1 hover:text-gray-600 focus:outline-none w-8 h-8 ease-out duration-300">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
+                </svg>
+              </button>
             </div>
-          </div>
-          <div className="flex mb-10">
-            <div className="flex-grow flex space-x-1">
-              <SearchChip name="Vegetables" onClick={() => {}} />
-              <SearchChip name="Fruits" onClick={() => {}} />
-              <SearchChip name="Grains" onClick={() => {}} />
-            </div>
-            <div className="flex-shrink-0 flex space-x-1">
-              <ToggleSwitch label="Show Map" setValue={()=>{}}/>
-            </div>
-          </div>
-          <div className="flex content-center mb-10 sticky top-0 bg-gray-50 pb-4 px-2 shadow-sm rounded-b-sm">
-            <div className="flex-grow flex space-x-1">
-              <h2 className="font-bold text-4xl text-gray-700">Vegetable</h2>
-              <h4 className="text-xl text-gray-400 self-end pl-2 ">
-                156 Results
-              </h4>
-            </div>
-            <div className="flex-shrink-0 flex space-x-1">
-              <div className="my-auto mx-2 p-2 shadow-sm hover:shadow-md rounded-lg cursor-pointer ease-out duration-300">
-                <div className="w-6 h-6 ">
-                  <svg
-                    className="text-gray-600"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
-                    />
-                  </svg>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-col">
-            <ResultListItem />
-            <ResultListItem />
-            <ResultListItem />
-            <ResultListItem />
-            <ResultListItem />
-            <ResultListItem />
-            <ResultListItem />
           </div>
         </div>
+        <div className="flex mb-10">
+          <div className="flex-grow flex space-x-1">
+            <SearchChip name="Vegetables" onClick={() => {}} />
+            <SearchChip name="Fruits" onClick={() => {}} />
+            <SearchChip name="Grains" onClick={() => {}} />
+          </div>
+          <div className="flex-shrink-0 flex space-x-1">
+            <ToggleSwitch label="Show Map" initialValue={showMap} setValue={(v) => {setShowMap(v)}} />
+          </div>
+        </div>
+        <div className="flex content-center mb-10 sticky top-0 bg-gray-50 pb-4 px-2 shadow-sm rounded-b-sm">
+          <div className="flex-grow flex space-x-1">
+            <h2 className="font-bold text-4xl text-gray-700">Vegetable</h2>
+            <h4 className="text-xl text-gray-400 self-end pl-2 ">
+              156 Results
+            </h4>
+          </div>
+          <div className="flex-shrink-0 flex space-x-1">
+            <div className="my-auto mx-2 p-2 shadow-sm hover:shadow-md rounded-lg cursor-pointer ease-out duration-300">
+              <div className="w-6 h-6 ">
+                <svg
+                  className="text-gray-600"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-col">
+          <ResultListItem />
+          <ResultListItem />
+          <ResultListItem />
+          <ResultListItem />
+          <ResultListItem />
+          <ResultListItem />
+          <ResultListItem />
+        </div>
+      </div>
+      {showMap ? (
         <div className="ml-3 flex-1 bg-gray-300 rounded-2xl overflow-hidden transform">
           <MapContainer
             style={{ height: "100%" }}
@@ -108,19 +116,46 @@ class HomePage extends Component {
             </Marker>
           </MapContainer>
         </div>
-      </div>
-    );
-  }
-}
-
-const SearchChip = ({ name, onClick }) => (
+      ) : null}
+    </div>
+  );
+};
+const SearchChip = ({ name, onClick, active = false }) => (
   <div
     onClick={onClick}
-    className="flex justify-center items-center m-1 font-medium py-1 px-2 rounded-lg bg-gray-100 text-gray-400 hover:text-green-600 hover:shadow-lg shadow-md ease-out duration-400 cursor-pointer transition-all"
+    className={`flex select-none justify-center items-center m-1 font-medium 
+    py-1 px-2 rounded-lg bg-gray-100 ${
+      active ? "text-green-600" : "text-gray-400"
+    } hover:text-green-600 hover:shadow-lg shadow-md ease-out duration-400 cursor-pointer transition-all`}
   >
     <div className="text-sm font-bold">{name}</div>
   </div>
 );
 
+const mapStateToProps = (state) => {
+  return {
+    harvests: state.firestore.ordered.harvests ?? [],
+    categories: state.firestore.ordered.categories ?? [],
+    auth: state.firebase.auth,
+  };
+};
 
-export default HomePage;
+const mapDispatchToProps = (dispatch) => {
+  return {};
+};
+
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  firestoreConnect((props) => {
+    return [
+      {
+        collection: "harvests",
+        where: [["created_at", ">", sevenDaysFromToday]],
+      },
+      {
+        collection: "categories",
+        orderBy: "score",
+      },
+    ];
+  })
+)(HomePage);

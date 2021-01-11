@@ -103,7 +103,6 @@ const SideNav = (props) => {
 
 const ProfileNav = ({ auth, profile, showAuthModal, signOut }) => {
   const history = useHistory();
-  console.log(auth, profile);
   const signedIn = !isEmpty(auth);
   const [showTip, setShowTip] = useState(true);
 
