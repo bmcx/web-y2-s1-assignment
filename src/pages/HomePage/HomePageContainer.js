@@ -177,40 +177,6 @@ const HomePage = (props) => {
       {showMap ? (
         <div className="ml-3 flex-1 bg-gray-300 rounded-2xl overflow-hidden transform">
           {displayMap}
-          {/* <MapContainer
-            style={{ height: "100vh" }}
-            center={
-              selectedResult
-                ? [
-                    selectedResult?.location?.latitude,
-                    selectedResult?.location?.longitude,
-                  ]
-                : [7.8731, 80.7718]
-            }
-            zoom={10}
-            scrollWheelZoom={true}
-          >
-            <TileLayer
-              attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-              url="https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png"
-            />
-            {results.map((result) => {
-              return (
-                <Marker
-                  position={[
-                    result?.location?.latitude,
-                    result?.location?.longitude,
-                  ]}
-                  key={result.id}
-                >
-                  <Popup>
-                    {result.title}
-                    <br /> {moment(result.created_at.toDate()).fromNow()}
-                  </Popup>
-                </Marker>
-              );
-            })}
-          </MapContainer> */}
         </div>
       ) : null}
     </div>
