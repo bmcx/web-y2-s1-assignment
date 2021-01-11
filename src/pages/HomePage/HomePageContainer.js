@@ -7,7 +7,7 @@ import { animated, useTrail } from "react-spring";
 import { compose } from "redux";
 import ToggleSwitch from "../../common/components/ToggleSwitch";
 import ResultListItem from "./component/ResultListItem";
-
+import { IconSearch } from "../../common/components/Icons";
 const sevenDaysFromToday = moment().subtract(7, "days").toDate();
 
 const HomePage = (props) => {
@@ -17,13 +17,19 @@ const HomePage = (props) => {
   const [searchTerm, setSearchTerm] = useState(null);
   const [showMap, setShowMap] = useState(true);
   const [selectedResult, setSelectedResult] = useState(null);
+  const [categories, setCategories] = useState([]);
   const [map, setMap] = useState(null);
+
   useEffect(() => {
-    if (isLoaded(props.harvests, props.categories)) {
-      setResults(props.harvests);
+    if (isLoaded(props.harvests, props.categories) && !searchTerm) {
       setLoading(false);
     }
-  }, [loading, props, results.length]);
+    if (!loading) {
+      setResults(props.harvests);
+      // console.log(1);
+      setCategories(props.categories);
+    }
+  }, [loading, props, searchTerm]);
 
   const trail = useTrail(results.length, {
     from: { marginLeft: 0, opacity: 0 },
@@ -71,6 +77,22 @@ const HomePage = (props) => {
     [results, selectedResult]
   );
 
+  const filterResults = (term) => {
+    let _results = [];
+    for (const result of props.harvests) {
+      if (
+        result.title.toLowerCase().indexOf(term.toLowerCase()) !== -1 ||
+        result.address.city.toLowerCase().indexOf(term.toLowerCase()) !== -1 ||
+        result.address.province.toLowerCase().indexOf(term.toLowerCase()) !==
+          -1 ||
+        result.address.street.toLowerCase().indexOf(term.toLowerCase()) !== -1
+      ) {
+        _results.push(result);
+      }
+    }
+    setResults(_results);
+    setSearchTerm(term);
+  };
   return (
     <div className="flex w-full h-full">
       <div className="flex-1 pl-4 pr-4 h-full overflow-y-auto">
@@ -81,34 +103,30 @@ const HomePage = (props) => {
               id="search"
               type="text"
               placeholder="Search"
-              onChange={(e) => {
-                setSearchTerm(e.target.value);
-              }}
+              onChange={(e) => filterResults(e.target.value)}
             />
             <div className="p-2">
-              <button className="text-gray-300 p-1 hover:text-gray-600 focus:outline-none w-8 h-8 ease-out duration-300">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                  />
-                </svg>
-              </button>
+              {searchTerm ? (
+                <button className="text-gray-500 p-1 hover:text-gray-600 focus:outline-none w-8 h-8 ease-out duration-300">
+                  🗙
+                </button>
+              ) : (
+                <button className="text-gray-300 p-1 hover:text-gray-600 focus:outline-none w-8 h-8 ease-out duration-300">
+                  <IconSearch />
+                </button>
+              )}
             </div>
           </div>
         </div>
         <div className="flex mb-10">
           <div className="flex-grow flex space-x-1">
-            <SearchChip name="Vegetables" onClick={() => {}} />
-            <SearchChip name="Fruits" onClick={() => {}} />
-            <SearchChip name="Grains" onClick={() => {}} />
+            {categories.map((category) => (
+              <SearchChip
+                key={category.id}
+                name={category.name}
+                onClick={() => setFilterCategory(category.id)}
+              />
+            ))}
           </div>
           <div className="flex-shrink-0 flex space-x-1">
             <ToggleSwitch
@@ -125,7 +143,7 @@ const HomePage = (props) => {
             <div className="flex-grow flex space-x-1">
               <h2 className="font-bold text-4xl text-gray-700">{searchTerm}</h2>
               <h4 className="text-xl text-gray-400 self-end pl-2 ">
-                156 Results
+                {`${results.length} Result${results.length > 1 ? "s" : ""}`}
               </h4>
             </div>
             <div className="flex-shrink-0 flex space-x-1">
@@ -151,27 +169,31 @@ const HomePage = (props) => {
           </div>
         ) : null}
         <div className="flex flex-col">
-          {trail.map((props, index) => {
-            return (
-              <animated.div
-                key={results[index].id}
-                style={props}
-                className="box"
-                onMouseEnter={() => {
-                  map.setView(
-                    [
-                      results[index]?.location?.latitude,
-                      results[index]?.location?.longitude,
-                    ],
-                    10
-                  );
-                  setSelectedResult(results[index]);
-                }}
-              >
-                <ResultListItem data={results[index]} />
-              </animated.div>
-            );
-          })}
+          {!loading &&
+            trail.map((props, index) => {
+              return (
+                <animated.div
+                  key={results[index].id}
+                  style={props}
+                  className="box"
+                  onMouseEnter={() => {
+                    map.setView(
+                      [
+                        results[index]?.location?.latitude,
+                        results[index]?.location?.longitude,
+                      ],
+                      10
+                    );
+                    setSelectedResult(results[index]);
+                  }}
+                >
+                  <ResultListItem
+                    data={results[index]}
+                    searchTerm={searchTerm}
+                  />
+                </animated.div>
+              );
+            })}
         </div>
       </div>
       {showMap ? (
@@ -213,6 +235,7 @@ export default compose(
       {
         collection: "harvests",
         where: [["created_at", ">", sevenDaysFromToday]],
+        orderBy: ["created_at", "desc"],
       },
       {
         collection: "categories",
