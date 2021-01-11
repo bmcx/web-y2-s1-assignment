@@ -1,5 +1,6 @@
 import moment from "moment";
 import React, { Component, useEffect, useMemo, useState } from "react";
+import L from "leaflet";
 import { MapContainer, TileLayer, Marker, Tooltip } from "react-leaflet";
 import { connect } from "react-redux";
 import { firestoreConnect, isLoaded } from "react-redux-firebase";
@@ -8,6 +9,7 @@ import { compose } from "redux";
 import ToggleSwitch from "../../common/components/ToggleSwitch";
 import ResultListItem from "./component/ResultListItem";
 import { IconSearch, IconSpinner } from "../../common/components/Icons";
+
 const sevenDaysFromToday = moment().subtract(7, "days").toDate();
 
 const HomePage = (props) => {
@@ -58,8 +60,28 @@ const HomePage = (props) => {
           url="https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png"
         />
         {filteredResults.map((result) => {
+          const iconUrls = {
+            vegetableIcon:
+              "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png",
+            fruitIcon:
+              "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-gold.png",
+            grainsIcon:
+              "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-orange.png",
+            otherIcon:
+              "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-black.png",
+          };
+          const icon = new L.Icon({
+            iconUrl: iconUrls[result.mapIconType],
+            shadowUrl:
+              "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            tooltipAnchor: [10, -30],
+            shadowSize: [41, 41],
+          });
           return (
             <Marker
+              icon={icon}
               position={[
                 result?.location?.latitude,
                 result?.location?.longitude,
@@ -67,8 +89,11 @@ const HomePage = (props) => {
               key={result.id}
             >
               <Tooltip>
-                {result.title}
-                <br /> {moment(result.created_at.toDate()).fromNow()}
+                <div className="text-sm font-bold">{result.title}</div>
+                <div className="text-xs ">{result.address.city}</div>
+                <div className="text-gray-400">
+                  {moment(result.created_at.toDate()).fromNow()}
+                </div>
               </Tooltip>
             </Marker>
           );
@@ -104,7 +129,7 @@ const HomePage = (props) => {
       }
     }
     setFilteredResults(_results);
-    setResults(_results)
+    setResults(_results);
     setFilterCategory(filterCategory === category ? null : category);
   };
 
