@@ -10,30 +10,26 @@ class DepartmentP extends Component {
             alt=""
             className="bg w-full h-full rounded object-cover object-center absolute z-0"
           />
-          <div className="flex flex-col justify-center items-center relative h-full bg-black bg-opacity-50 text-white">
-            <img
-              alt="profile"
-              src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
-              className="h-24 w-24 object-cover object-center rounded"
-            />
-            <h1 className="text-2xl font-semibold">Rishini perera</h1>
-            <h4 className="text-sm font-semibold">DEPARTMENT ID 00000000</h4>
-          </div>
+          
         </div>
         <div className="h-24 bg-gray-50 flex relative py-2 px-24">
           <div
             className="h-32 w-32 rounded-full bg-gray-500"
             style={{ marginTop: "-3rem" }}
-          ></div>
+          > <img
+          alt="profile"
+          src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
+          className="h-32 w-32 rounded-full"
+        /></div>
           <div className="flex flex-row p-4 w-full">
             <div className="flex-col flex-grow">
               <h1 className="text-2xl font-semibold">Rishini perera</h1>
-              <h4 className="text-sm font-semibold">DEPARTMENT ID 00000000</h4>
+              <h4 className="text-sm font-semibold">DEPARTMENT ID 000000000</h4>
               <div className="flex flex-row space-x-2">
-                <div className="w-32 h-4 bg-gray-500"></div>
-                <div className="w-32 h-4 bg-gray-500"></div>
-                <div className="w-32 h-4 bg-gray-500"></div>
-                <div className="w-32 h-4 bg-gray-500"></div>
+                <div className="w-32 h-4 bg-green-600"></div>
+                <div className="w-32 h-4 bg-green-600"></div>
+                <div className="w-32 h-4 bg-green-600"></div>
+                <div className="w-32 h-4 bg-green-600"></div>
               </div>
             </div>
             <div className="flex-grow-0">Logout</div>
