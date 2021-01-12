@@ -191,4 +191,4 @@ class KeelsShowData extends Component {
   }
 }
 
-export default KeelsShowDta;
+export default KeelsShowData;
