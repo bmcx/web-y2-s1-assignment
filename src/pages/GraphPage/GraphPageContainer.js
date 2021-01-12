@@ -109,6 +109,7 @@ const GraphPageContainer = () => {
             </div>
         </div>
     <div class="grid gap-6 mb-8 md:grid-cols-2">  
+    <div class="flex justify- p- px- py-">
     <div class="min-w-0 p-4 text-Black bg-white rounded-lg shadow-xs">
                 <h4 class="mb-4 font-semibold">
                   Chart
@@ -124,9 +125,11 @@ const GraphPageContainer = () => {
                   
                 </p>
               </div>
+              </div>
             </div>
             
-    </div>        
+    </div>   
+         
     </div>
       </div>
     </div>

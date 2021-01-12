@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-class KeelsShowData extends Component {
+class FarmerP extends Component {
   render() {
     return (
       <div className="w-full relative mt-4 rounded my-24 overflow-hidden">
@@ -41,7 +41,7 @@ class KeelsShowData extends Component {
               href="#"
               className="text-sm p-2 bg-green-600 text-white text-center rounded font-bold"
             >
-              Keels Employee Information
+              Farmer Information
             </a>
 
             <a
@@ -56,7 +56,7 @@ class KeelsShowData extends Component {
             </div>
 
             <div className="form-item">
-              <label className="text-l ">Department of Agriculture</label>
+              <label className="text-l ">Farmers</label>
               <input
                 type="text"
                 value="https://Departmentofagriculture.com/"
@@ -76,18 +76,6 @@ class KeelsShowData extends Component {
             </div>
 
             <div className="form-item">
-              <lable className="tect-1 ">Farmer info</lable>
-              <input
-                type="text"
-                value="Farmer details"
-                className="w-full appearance-none text-black text-opacity-50 rounded shadow py-1 px-2 mr-2 focus:outline-none focus:shadow-outline focus:border-blue-200 text-opacity-25 "
-                disabled
-               />
-            </div>       
-
-            </div>
-
-            <div className="form-item">
               <label className="text-l ">Help</label>
               <input
                 type="text"
@@ -95,7 +83,7 @@ class KeelsShowData extends Component {
                 className="w-full appearance-none text-black text-opacity-50 rounded shadow py-1 px-2  mr-2 focus:outline-none focus:shadow-outline focus:border-blue-200  "
                 disabled
               />
-            
+            </div>
           </div>
 
           <div className="col-span-12 md:border-solid md:border-l md:border-black md:border-opacity-25 h-full pb-12 md:col-span-10">
@@ -103,7 +91,7 @@ class KeelsShowData extends Component {
               <form action="#" className="flex flex-col space-y-8">
                 <div>
                   <h3 className="text-2xl font-semibold">
-                    Farmers Information
+                    Farmer Information
                   </h3>
                   <hr />
                 </div>
@@ -191,4 +179,4 @@ class KeelsShowData extends Component {
   }
 }
 
-export default KeelsShowDta;
+export default FarmerP;
