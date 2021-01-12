@@ -9,7 +9,12 @@ const UserInfoCardMessages = ({ user, message }) => {
   useEffect(() => {
     if (isLoaded(user)) setLoading(false);
   }, [user]);
-  if (loading) return <div>Loading..</div>;
+  if (loading)
+    return (
+      <div className="px-2 py-1 m-1 border border-opacity-40 bg-gray-100 rounded-md text-justify">
+        Loading..
+      </div>
+    );
 
   return (
     <div className="flex flex-row space-x-2 items-start mb-6">
@@ -19,12 +24,16 @@ const UserInfoCardMessages = ({ user, message }) => {
       ></div>
       <div className="flex flex-col w-full">
         <div className="flex flex-row justify-between items-center space-x-1">
-          <div className="text-sm text-gray-600">{`${user.firstName} ${user.lastName} ${user.role}`}</div>
+          <div className="text-sm text-gray-600">{`${user.firstName} ${
+            user.lastName
+          } ${user.role ? `[${user.role} STAFF]` : ""}`}</div>
           <div className="text-sm text-gray-600">{`replied ${moment(
             message.created_at.toDate()
           ).fromNow()}`}</div>
         </div>
-        <div className="px-2 py-1 m-1 border border-opacity-40 bg-gray-100 rounded-md text-justify">{message.body}</div>
+        <div className="px-2 py-1 m-1 border border-opacity-40 bg-gray-100 rounded-md text-justify">
+          {message.body}
+        </div>
       </div>
     </div>
   );

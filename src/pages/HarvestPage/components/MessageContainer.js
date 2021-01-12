@@ -4,29 +4,52 @@ import { firestoreConnect, isEmpty, isLoaded } from "react-redux-firebase";
 import { compose } from "redux";
 import moment from "moment";
 import UserInfoCardMessages from "./UserInfoCardMessages";
+import { sendMessage } from "../../../state/auth/authActions";
 
 const sevenDaysFromToday = moment().subtract(7, "days").toDate();
 
-const MessageContainer = ({ messages, auth }) => {
+const MessageContainer = ({
+  id,
+  messages,
+  auth,
+  userId,
+  profile,
+  sendMessage,
+}) => {
+  console.log(profile);
   const [loading, setLoading] = useState(true);
-  console.log(messages);
+  const [newMsg, setNewMsg] = useState(null);
   useEffect(() => {
     if (isLoaded(messages)) setLoading(false);
   }, [messages]);
   if (loading) return <div className="mt-6">Messages Loading..</div>;
 
+  const send = () => {
+    console.log(newMsg);
+    sendMessage({
+      harvestId: id,
+      body: newMsg,
+      sentByOwner: auth.uid === userId,
+    });
+  };
+
   return (
     <div className="flex flex-col space-x-2 mt-6">
       <div className="border-b font-bold">Messages</div>
 
-      {!isEmpty(auth) ? (
+      {(!isEmpty(auth) && auth.uid === userId) || profile?.role ? (
         <div className="flex flex-col items-end">
           <textarea
             rows={4}
             className="p-2 w-full focus:outline-none border rounded-md mt-1"
             placeholder="Type your reply here"
+            onChange={(e) => setNewMsg(e.target.value)}
           />
-          <button className="bg-gray-700 text-white text-sm uppercase font-bold py-2 px-4 my-2 rounded-lg hover:bg-gray-600 focus:outline-none focus:bg-gray-600 ease-out duration-300">
+          <button
+            onClick={send}
+            disabled={!newMsg}
+            className="bg-gray-700 text-white text-sm uppercase font-bold py-2 px-4 my-2 rounded-lg hover:bg-gray-600 focus:outline-none focus:bg-gray-600 ease-out duration-300"
+          >
             Send
           </button>
         </div>
@@ -50,16 +73,18 @@ const MessageContainer = ({ messages, auth }) => {
 };
 
 const mapStateToProps = (state, props) => {
-  console.log(state.firestore);
   return {
     id: props.id,
     messages: state.firestore.ordered[`${props.id}_selected_messages`],
     auth: state.firebase.auth,
+    profile: state.firebase.profile,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {
+    sendMessage: (data) => dispatch(sendMessage(data)),
+  };
 };
 
 export default compose(

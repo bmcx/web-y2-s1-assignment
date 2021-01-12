@@ -4,6 +4,7 @@ import actionTypes from "../actionTypes";
 const initState = {
   authError: null,
   authModalVisible: false,
+  harvestModalVisible: false,
 };
 
 const auth = (state = initState, action) => {
@@ -23,6 +24,7 @@ const auth = (state = initState, action) => {
         authError: msg,
       };
     case actionTypes.SIGN_UP_SUCCESS:
+      window.location.reload();
       return {
         ...state,
         authError: null,
@@ -70,6 +72,16 @@ const auth = (state = initState, action) => {
         ...state,
         authError: null,
         authModalVisible: false,
+      };
+    case actionTypes.SHOW_HARVEST_MODAL:
+      return {
+        ...state,
+        harvestModalVisible: true,
+      };
+    case actionTypes.HIDE_HARVEST_MODAL:
+      return {
+        ...state,
+        harvestModalVisible: false,
       };
     case actionTypes.RESET_AUTH_ERROR:
       return {

@@ -87,7 +87,7 @@ const HarvestPageContainer = ({ harvest, auth, showAuthModal }) => {
 
         <div className="mt-4 text-justify">{harvest.description}</div>
         {!isEmpty(auth) ? (
-          <MessageContainer id={harvest.id} />
+          <MessageContainer id={harvest.id} userId={harvest.farmer.id} />
         ) : (
           <div
             onClick={() => showAuthModal()}

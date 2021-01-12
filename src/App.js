@@ -12,6 +12,7 @@ import AuthContainer from "./pages/Auth/AuthContainer";
 import LoadingContainer from "./pages/Loading/LoadingContainer";
 import AddProfileInfoContainer from "./pages/Auth/AddProfileInfoContainer";
 import HarvestPageContainer from "./pages/HarvestPage/HarvestPageContainer";
+import GraphPageContainer from "./pages/GraphPage/GraphPageContainer";
 
 function App(props) {
   const { auth, profile, authModalVisible } = props;
@@ -49,6 +50,20 @@ function App(props) {
     zIndex: 999,
   });
   const authModalTransitions = useTransition(authModalVisible, null, {
+    from: {
+      opacity: 0,
+      backdropFilter: "blur(0px)",
+    },
+    enter: {
+      opacity: 1,
+      backdropFilter: "blur(5px)",
+    },
+    leave: {
+      opacity: 0,
+      backdropFilter: "blur(0px)",
+    },
+  });
+  const harvestModalTransitions = useTransition(authModalVisible, null, {
     from: {
       opacity: 0,
       backdropFilter: "blur(0px)",
@@ -101,6 +116,7 @@ function App(props) {
               <Route path="/" component={HomePage} exact />
               <Route path="/harvest/:id" component={HarvestPageContainer} />
               <Route path="/profile" component={ProfilePage} />
+              <Route path="/graphs" component={GraphPageContainer} />
               <Route path="*" component={() => <div>Not found</div>} />
             </Switch>
           </animated.div>

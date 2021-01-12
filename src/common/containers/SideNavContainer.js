@@ -53,8 +53,8 @@ const SideNav = (props) => {
               )}
             </SideNavItem>
           </NavTooltip>
-          <NavTooltip tooltipText="Messages">
-            <SideNavItem to="/messages">
+          <NavTooltip tooltipText="Graphs">
+            <SideNavItem to="/graphs">
               {(isActive) => (
                 <div className="flex content-center">
                   <IconChatOutline

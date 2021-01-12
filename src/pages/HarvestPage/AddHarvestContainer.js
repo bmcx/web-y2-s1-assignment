@@ -6,22 +6,15 @@ import { IconSpinner } from "../../../common/components/Icons";
 import LogoLong from "../../../common/components/LogoLong";
 import SignInWithGoogleButton from "../../../common/components/SignInWithGoogleButton";
 import {
-  hideAuthModal,
-  resetAuthError,
-  signInWithGoogleAction,
-  signUpAction,
+  hideHarvestModal,
+  showHarvestModal,
 } from "../../../state/auth/authActions";
 
-const SignUpForm = (props) => {
+const AddHarvestContainer = (props) => {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [nic, setNic] = useState("");
-  const [phone, setPhone] = useState("");
-
-  const { authError } = props;
+  const { authError, setPage } = props;
 
   useEffect(() => {
     if (authError) {
@@ -31,78 +24,32 @@ const SignUpForm = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (nic.search(/^([0-9]{9}[x|X|v|V]|[0-9]{12})$/) === -1) {
-      alert("Check NIC");
-      return;
-    }
-    if (
-      phone.search(
-        /^(?:0|94|\+94)?(?:(11|21|23|24|25|26|27|31|32|33|34|35|36|37|38|41|45|47|51|52|54|55|57|63|65|66|67|81|912)(0|2|3|4|5|7|9)|7(0|1|2|5|6|7|8)\d)\d{6}$/
-      ) === -1
-    ) {
-      alert("Check Phone Number");
-      return;
-    }
     setLoading(true);
-    props.signUp({
-      firstName,
-      lastName,
-      nic,
-      phone,
+    props.signIn({
       email,
       password,
     });
   };
+
   return (
     <div className="bg-gray-50 rounded-lg w-96 shadow-lg p-4 z-20">
       <button
-        onClick={() => props.hideAuthModal()}
+        onClick={() => props.hideHarvestModal()}
         className="absolute bg-gray-100 w-8 h-8 top-0 right-0 rounded-lg flex items-center hover:shadow-md justify-center transition-all ease-out duration-400 focus:outline-none"
       >
         🗙
       </button>
-      <LogoLong />
-      <p className="text-xl text-gray-600 text-center">Welcome!</p>
-      <SignInWithGoogleButton onClick={() => props.signInWithGoogle()} />
+      <p className="text-xl text-gray-600 text-center">Welcome back!</p>
       <div className="mt-4 flex items-center justify-between">
         <span className="border-b w-1/5 lg:w-1/4"></span>
 
         <span className="text-xs text-center text-gray-500 uppercase">
-          or sign up with email
+          or sign in with email
         </span>
 
         <span className="border-b w-1/5 lg:w-1/4"></span>
       </div>
       <form onSubmit={handleSubmit}>
-        <div className="mt-4 flex space-x-2">
-          <div className="w-1/2">
-            <FormInput
-              id="firstName"
-              labelText="First Name"
-              name="firstName"
-              type="text"
-              required={true}
-              disabled={loading}
-              onChange={(e) => {
-                setFirstName(e.target.value);
-              }}
-              autoFocus={true}
-            />
-          </div>
-          <div className="w-1/2">
-            <FormInput
-              id="lastName"
-              labelText="Last Name"
-              name="lastName"
-              type="text"
-              required={true}
-              disabled={loading}
-              onChange={(e) => {
-                setLastName(e.target.value);
-              }}
-            />
-          </div>
-        </div>
         <div className="mt-4">
           <FormInput
             id="email"
@@ -115,6 +62,7 @@ const SignUpForm = (props) => {
               setEmail(e.target.value);
             }}
             validationError={authError ? true : false}
+            autoFocus={true}
           />
         </div>
         <div className="mt-4">
@@ -122,6 +70,7 @@ const SignUpForm = (props) => {
             id="password"
             labelText="Password"
             name="password"
+            type="password"
             required={true}
             disabled={loading}
             onChange={(e) => {
@@ -130,41 +79,13 @@ const SignUpForm = (props) => {
             validationError={authError ? true : false}
           />
         </div>
-        <div className="mt-4 flex space-x-2">
-          <div className="w-1/2">
-            <FormInput
-              id="nic"
-              labelText="NIC Number"
-              name="nic"
-              type="text"
-              required={true}
-              tooltipText="NIC will be used to only confirm your identity"
-              onChange={(e) => {
-                setNic(e.target.value);
-              }}
-              minLength={10}
-              disabled={loading}
-              maxLength={13}
-            />
+
+        {authError ? (
+          <div className="text-xs mt-2 text-center p-2 bg-red-400 rounded-lg text-white">
+            {authError}
           </div>
-          <div className="w-1/2">
-            <FormInput
-              id="phone"
-              labelText="Phone"
-              name="phone"
-              type="text"
-              required={true}
-              tooltipText="Phone will be shared with keels staff"
-              onChange={(e) => {
-                setPhone(e.target.value);
-              }}
-              minLength={10}
-              disabled={loading}
-              maxLength={10}
-            />
-          </div>
-        </div>
-        <div className="mt-8">
+        ) : null}
+        <div className="mt-6">
           <button
             disabled={loading}
             type="submit"
@@ -175,22 +96,24 @@ const SignUpForm = (props) => {
                 <IconSpinner colorClass="text-gray-300" />
               </div>
             ) : (
-              "Sign Up"
+              "Sign in"
             )}
           </button>
         </div>
       </form>
+
       <div className="mt-4 flex items-center justify-between">
         <span className="border-b w-1/5 md:w-1/4"></span>
 
         <button
           onClick={() => {
             props.resetAuthError();
-            props.setPage("SignIn");
+            setPage("SignUp");
           }}
+          disabled={loading}
           className="text-xs text-gray-500 uppercase hover:underline focus:outline-none"
         >
-          or sign in
+          or sign up
         </button>
 
         <span className="border-b w-1/5 md:w-1/4"></span>
@@ -204,14 +127,14 @@ const mapStateToProps = (state) => {
     authError: state.auth.authError,
   };
 };
-
 const mapDispatchToProps = (dispatch) => {
   return {
-    signUp: (data) => dispatch(signUpAction(data)),
-    signInWithGoogle: () => dispatch(signInWithGoogleAction()),
-    hideAuthModal: () => dispatch(hideAuthModal()),
-    resetAuthError: () => dispatch(resetAuthError()),
+    hideHarvestModal: () => dispatch(hideHarvestModal()),
+    showHarvestModal: () => dispatch(showHarvestModal()),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUpForm);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AddHarvestContainer);

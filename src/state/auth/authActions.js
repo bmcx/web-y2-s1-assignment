@@ -36,6 +36,16 @@ export const hideAuthModal = () => {
     dispatch({ type: actionTypes.HIDE_AUTH_MODAL });
   };
 };
+export const showHarvestModal = () => {
+  return (dispatch) => {
+    dispatch({ type: actionTypes.SHOW_HARVEST_MODAL });
+  };
+};
+export const hideHarvestModal = () => {
+  return (dispatch) => {
+    dispatch({ type: actionTypes.HIDE_HARVEST_MODAL });
+  };
+};
 export const resetAuthError = () => {
   return (dispatch) => {
     dispatch({ type: actionTypes.RESET_AUTH_ERROR });
@@ -60,9 +70,9 @@ export const signUpAction = (data) => {
       var res = await firebase
         .auth()
         .createUserWithEmailAndPassword(data.email, data.password);
-      await res.updateProfile({
-        displayName: `${data.firstName} ${data.lastName}`,
-      });
+      // await res.updateProfile({
+      //   displayName: `${data.firstName} ${data.lastName}`,
+      // });
       localStorage.setItem("firstName", data.firstName);
       localStorage.setItem("lastName", data.lastName);
       localStorage.setItem("nic", data.nic);
@@ -99,6 +109,32 @@ export const completeProfileAction = (data) => {
       dispatch({ type: actionTypes.PROFILE_COMPLETE_SUCCESS, res: "" });
     } catch (err) {
       dispatch({ type: actionTypes.PROFILE_COMPLETE_ERROR, err });
+    }
+  };
+};
+
+export const sendMessage = (data) => {
+  return async (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firebase = getFirebase();
+    const firestore = getFirestore();
+    let state = getState();
+    let userId = state?.firebase?.auth?.uid;
+
+    try {
+      await firestore
+        .collection("harvests")
+        .doc(data.harvestId)
+        .collection("messages")
+        .add({
+          body: data.body,
+          created_at: new Date(),
+          sentByOwner: data.sentByOwner,
+          user: firestore.doc("/users/" + userId),
+        });
+
+      dispatch({ type: actionTypes.SEND_MESSAGE_SUCCESS, res: "" });
+    } catch (err) {
+      dispatch({ type: actionTypes.SEND_MESSAGE_ERROR, err });
     }
   };
 };
