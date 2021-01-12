@@ -138,3 +138,52 @@ export const sendMessage = (data) => {
     }
   };
 };
+
+export const addHarvest = (data) => {
+  return async (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firebase = getFirebase();
+    const firestore = getFirestore();
+    let state = getState();
+    const timeStamp = Date.now();
+
+    let userId = state?.firebase?.auth?.uid;
+    var photoRefs = [];
+    var photoUrls = [];
+
+    var storageRef = firebase.storage().ref();
+
+    for (let i = 0; i < data.files.length; i++) {
+      photoRefs.push(storageRef.child(`/users/${timeStamp}/harvest_${i}.png`));
+    }
+    for (let i = 0; i < data.files.length; i++) {
+      await photoRefs[i].put(data.files[i]);
+    }
+    for (let i = 0; i < data.files.length; i++) {
+      let url = await photoRefs[i].getDownloadURL();
+      photoUrls.push(url);
+    }
+
+    try {
+      await firestore.collection("harvests").add({
+        address: {
+          city: data.selectedDistrict,
+          province: data.selectedProvince,
+          street: data.street,
+        },
+        categories: [firestore.doc("/categories/" + data.categoryId)],
+        created_at: new Date(),
+        description: data.description,
+        farmer: firestore.doc("/users/" + userId),
+        images: photoUrls,
+        location: new firestore.GeoPoint(data.latitude, data.longitude),
+        mapIconType: data.iconType,
+        title: data.title,
+      });
+
+      dispatch({ type: actionTypes.ADD_HARVEST_SUCCESS, res: "" });
+    } catch (err) {
+      console.log(err);
+      dispatch({ type: actionTypes.ADD_HARVEST_ERROR, err });
+    }
+  };
+};

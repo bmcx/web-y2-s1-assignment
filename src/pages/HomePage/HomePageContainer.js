@@ -1,14 +1,16 @@
 import moment from "moment";
 import React, { Component, useEffect, useMemo, useState } from "react";
 import L from "leaflet";
-import { MapContainer, TileLayer, Marker, Tooltip } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Tooltip, Popup } from "react-leaflet";
 import { connect } from "react-redux";
-import { firestoreConnect, isLoaded } from "react-redux-firebase";
+import { firestoreConnect, isEmpty, isLoaded } from "react-redux-firebase";
 import { animated, useTrail } from "react-spring";
 import { compose } from "redux";
 import ToggleSwitch from "../../common/components/ToggleSwitch";
 import ResultListItem from "./component/ResultListItem";
 import { IconSearch, IconSpinner } from "../../common/components/Icons";
+import { showHarvestModal } from "../../state/auth/authActions";
+import { Link } from "react-router-dom";
 
 const sevenDaysFromToday = moment().subtract(7, "days").toDate();
 
@@ -77,6 +79,7 @@ const HomePage = (props) => {
             iconSize: [25, 41],
             iconAnchor: [12, 41],
             tooltipAnchor: [10, -30],
+            popupAnchor: [0, -30],
             shadowSize: [41, 41],
           });
           return (
@@ -89,12 +92,34 @@ const HomePage = (props) => {
               key={result.id}
             >
               <Tooltip>
-                <div className="text-sm font-bold">{result.title}</div>
+                <div
+                  className=" w-full h-32 rounded-md bg-cover"
+                  style={{ backgroundImage: `url("${result.images[0]}")` }}
+                ></div>
+                <div className="text-sm font-bold">{`${result.title.substring(
+                  0,
+                  16
+                )}...`}</div>
                 <div className="text-xs ">{result.address.city}</div>
                 <div className="text-gray-400">
                   {moment(result.created_at.toDate()).fromNow()}
                 </div>
               </Tooltip>
+              <Popup>
+                <div
+                  className="w-32 h-32 rounded-md bg-cover"
+                  style={{ backgroundImage: `url("${result.images[0]}")` }}
+                ></div>
+                <div className="text-sm font-bold">{`${result.title.substring(
+                  0,
+                  16
+                )}...`}</div>
+                <div className="text-xs ">{result.address.city}</div>
+                <div className="text-gray-400">
+                  {moment(result.created_at.toDate()).fromNow()}
+                </div>
+                <Link to={`/harvest/${result.id}`}>Read more..</Link>
+              </Popup>
             </Marker>
           );
         })}
@@ -240,6 +265,14 @@ const HomePage = (props) => {
             </div>
           </div>
         ) : null}
+        {!isEmpty(props.auth) ? (
+          <div
+            onClick={() => props.showHarvestModal()}
+            className="font-bold text-gray-500 rounded-md hover:shadow-md text-center px-2 py-1 mb-2 border border-opacity-40 bg-gray-100 duration-300 ease-out cursor-pointer"
+          >
+            Add New Harvest
+          </div>
+        ) : null}
         <div className="flex flex-col">
           {trail.map((props, index) => {
             return (
@@ -298,7 +331,9 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {
+    showHarvestModal: () => dispatch(showHarvestModal()),
+  };
 };
 
 export default compose(

@@ -98,6 +98,16 @@ const auth = (state = initState, action) => {
         ...state,
         authError: null,
       };
+    case actionTypes.ADD_HARVEST_SUCCESS:
+      return {
+        ...state,
+        harvestModalVisible: false,
+      };
+    case actionTypes.ADD_HARVEST_ERROR:
+      toast.error(msg);
+      return {
+        ...state,
+      };
 
     default:
       return state;

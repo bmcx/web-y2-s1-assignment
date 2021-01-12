@@ -71,7 +71,7 @@ const SideNav = (props) => {
             </SideNavItem>
           </NavTooltip>
         </ul>
-        <ul>
+        {/* <ul>
           <NavTooltip tooltipText="Settings">
             <SideNavItem to="/settings">
               {(isActive) => (
@@ -89,7 +89,7 @@ const SideNav = (props) => {
               )}
             </SideNavItem>
           </NavTooltip>
-        </ul>
+        </ul> */}
       </nav>
 
       <ProfileNav {...props} />

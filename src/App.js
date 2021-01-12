@@ -13,9 +13,10 @@ import LoadingContainer from "./pages/Loading/LoadingContainer";
 import AddProfileInfoContainer from "./pages/Auth/AddProfileInfoContainer";
 import HarvestPageContainer from "./pages/HarvestPage/HarvestPageContainer";
 import GraphPageContainer from "./pages/GraphPage/GraphPageContainer";
+import AddHarvestContainer from "./pages/HarvestPage/AddHarvestContainer";
 
 function App(props) {
-  const { auth, profile, authModalVisible } = props;
+  const { auth, profile, authModalVisible, harvestModalVisible } = props;
   const loaded = isLoaded(auth, profile);
   const { location } = useContext(__RouterContext);
   const routeTransitions = useTransition(
@@ -63,7 +64,7 @@ function App(props) {
       backdropFilter: "blur(0px)",
     },
   });
-  const harvestModalTransitions = useTransition(authModalVisible, null, {
+  const harvestModalTransitions = useTransition(harvestModalVisible, null, {
     from: {
       opacity: 0,
       backdropFilter: "blur(0px)",
@@ -103,6 +104,18 @@ function App(props) {
             </animated.div>
           )
       )}
+      {harvestModalTransitions.map(
+        ({ item, key, props: style }) =>
+          item && (
+            <animated.div
+              key={key}
+              style={style}
+              className="w-screen h-screen absolute z-20"
+            >
+              <AddHarvestContainer />
+            </animated.div>
+          )
+      )}
 
       <div className="w-screen h-screen py-2 pr-2 bg-gray-50 flex relative overflow-hidden">
         <SideNav auth={auth} profile={profile} />
@@ -129,6 +142,7 @@ const mapStateToProps = (state) => {
   return {
     auth: state.firebase.auth,
     authModalVisible: state.auth.authModalVisible,
+    harvestModalVisible: state.auth.harvestModalVisible,
     profile: state.firebase.profile,
   };
 };
