@@ -11,6 +11,7 @@ import SideNav from "./common/containers/SideNavContainer";
 import AuthContainer from "./pages/Auth/AuthContainer";
 import LoadingContainer from "./pages/Loading/LoadingContainer";
 import AddProfileInfoContainer from "./pages/Auth/AddProfileInfoContainer";
+import HarvestPageContainer from "./pages/HarvestPage/HarvestPageContainer";
 
 function App(props) {
   const { auth, profile, authModalVisible } = props;
@@ -98,6 +99,7 @@ function App(props) {
           >
             <Switch location={item}>
               <Route path="/" component={HomePage} exact />
+              <Route path="/harvest/:id" component={HarvestPageContainer} />
               <Route path="/profile" component={ProfilePage} />
               <Route path="*" component={() => <div>Not found</div>} />
             </Switch>

@@ -7,7 +7,7 @@ const initState = {
 };
 
 const auth = (state = initState, action) => {
-  console.log(action);
+  // console.log(action);
   let msg = action?.err?.message ?? "There was an error!";
   switch (action.type) {
     case actionTypes.LOGIN_SUCCESS:
