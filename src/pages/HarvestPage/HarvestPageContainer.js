@@ -4,17 +4,19 @@ import { firestoreConnect, isEmpty, isLoaded } from "react-redux-firebase";
 import { compose } from "redux";
 import { IconMapPinOutline, IconSpinner } from "../../common/components/Icons";
 import moment from "moment";
+import UserInfoCard from "./components/UserInfoCard";
+import MessageContainer from "./components/MessageContainer";
+import { showAuthModal } from "../../state/auth/authActions";
 
 const sevenDaysFromToday = moment().subtract(7, "days").toDate();
 
-const HarvestPageContainer = ({ harvest, auth }) => {
-  console.log(harvest);
+const HarvestPageContainer = ({ harvest, auth, showAuthModal }) => {
   const [loading, setLoading] = useState(true);
   const [selectedPicture, setSelectedPicture] = useState("");
   useEffect(() => {
     if (isLoaded(harvest)) {
       setLoading(false);
-      setSelectedPicture(harvest.images[0]);
+      if (harvest.images) setSelectedPicture(harvest.images[0]);
     }
   }, [harvest]);
   if (loading)
@@ -26,6 +28,12 @@ const HarvestPageContainer = ({ harvest, auth }) => {
         <div className="text-md font-lato animate-pulse text-gray-900">
           Loading
         </div>
+      </div>
+    );
+  if (isEmpty(harvest))
+    return (
+      <div className="flex w-full h-full flex-col justify-center items-center">
+        Not found
       </div>
     );
 
@@ -54,37 +62,61 @@ const HarvestPageContainer = ({ harvest, auth }) => {
         <div className="text-3xl font-bold text-gray-700 mb-1">
           {harvest.title}
         </div>
-
-        <a
-          target="_blank"
-          rel="noreferrer"
-          href={`https://www.google.com/maps/search/${harvest.location.latitude},${harvest.location.longitude}`}
-          className="text-md text-gray-400 hover:underline"
-        >
-          {`${!isEmpty(auth) ? `${harvest.address.street}, ` : ""} ${
-            harvest.address.city
-          }, ${harvest.address.province} `}
-        </a>
-
-        <div className="text-sm text-gray-400">
-          {`Posted ${moment(harvest.created_at.toDate()).fromNow()}`}
+        <div className="flex flex-row justify-between items-end mt-4 mb-2">
+          {!isEmpty(auth) ? (
+            <UserInfoCard
+              id={harvest.farmer.id}
+              address={
+                <a
+                  target="_blank"
+                  rel="noreferrer"
+                  href={`https://www.google.com/maps/search/${harvest.location.latitude},${harvest.location.longitude}`}
+                  className="text-md text-gray-400 hover:underline"
+                >
+                  {`${!isEmpty(auth) ? `${harvest.address.street}, ` : ""} ${
+                    harvest.address.city
+                  }, ${harvest.address.province} `}
+                </a>
+              }
+            />
+          ) : null}
+          <div className="text-sm text-gray-400">
+            {`Posted ${moment(harvest.created_at.toDate()).fromNow()}`}
+          </div>
         </div>
-        <div className="mt-6 text-justify">{harvest.description}</div>
+
+        <div className="mt-4 text-justify">{harvest.description}</div>
+        {!isEmpty(auth) ? (
+          <MessageContainer id={harvest.id} />
+        ) : (
+          <div
+            onClick={() => showAuthModal()}
+            className="mt-4 font-bold text-gray-500 text-center px-2 py-1 m-1 border border-opacity-40 bg-gray-100"
+          >
+            Please sign in to get more information
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, props) => {
+  const id = props.match?.params?.id;
   return {
-    harvest: state.firestore.data.selected_harvest ?? [],
+    id,
+    harvest: state.firestore.ordered.selected_harvest
+      ? state.firestore.ordered.selected_harvest[0]
+      : [],
     categories: state.firestore.ordered.categories ?? [],
     auth: state.firebase.auth,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {
+    showAuthModal: () => dispatch(showAuthModal()),
+  };
 };
 
 export default compose(
