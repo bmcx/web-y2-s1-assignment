@@ -125,19 +125,21 @@ const HarvestPageContainer = ({
                   style={{ backgroundImage: `url("${image}")` }}
                   onClick={() => setSelectedPicture(image)}
                 >
-                  <div
-                    className="absolute top-1 right-1 font-bold px-2 py-1 cursor-pointer bg-gray-700 rounded select-none text-gray-50"
-                    onClick={() => {
-                      let t = window.confirm("Are you sure");
-                      if (t)
-                        removeImageByUrl({
-                          imageUrl: image,
-                          harvestId: harvest.id,
-                        });
-                    }}
-                  >
-                    Remove
-                  </div>
+                  {canEdit ? (
+                    <div
+                      className="absolute top-1 right-1 font-bold px-2 py-1 cursor-pointer bg-gray-700 rounded select-none text-gray-50"
+                      onClick={() => {
+                        let t = window.confirm("Are you sure");
+                        if (t)
+                          removeImageByUrl({
+                            imageUrl: image,
+                            harvestId: harvest.id,
+                          });
+                      }}
+                    >
+                      Remove
+                    </div>
+                  ) : null}
                 </div>
               ))}
               {canEdit ? (
@@ -221,13 +223,15 @@ const HarvestPageContainer = ({
                 </div>
                 {!editing ? (
                   <div
-                  onClick={() => {
-                    let t = window.confirm("Action cannot be undone! Are you sure?");
-                    if (t)
-                      remove({
-                        harvestId: harvest.id,
-                      });
-                  }}
+                    onClick={() => {
+                      let t = window.confirm(
+                        "Action cannot be undone! Are you sure?"
+                      );
+                      if (t)
+                        remove({
+                          harvestId: harvest.id,
+                        });
+                    }}
                     className="text-sm py-1 px-2 bg-gray-700 rounded select-none text-gray-50 text-left hover:underline cursor-pointer"
                   >
                     Delete
