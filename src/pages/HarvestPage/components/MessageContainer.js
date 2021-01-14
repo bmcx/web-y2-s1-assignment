@@ -16,7 +16,6 @@ const MessageContainer = ({
   profile,
   sendMessage,
 }) => {
-  console.log(profile);
   const [loading, setLoading] = useState(true);
   const [newMsg, setNewMsg] = useState(null);
   useEffect(() => {
@@ -25,7 +24,6 @@ const MessageContainer = ({
   if (loading) return <div className="mt-6">Messages Loading..</div>;
 
   const send = () => {
-    console.log(newMsg);
     sendMessage({
       harvestId: id,
       body: newMsg,

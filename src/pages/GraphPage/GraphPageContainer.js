@@ -85,7 +85,7 @@ const GraphPageContainer = (props) => {
   };
   return (
     <div>
-      <div className="flex items- min-h-screen bg-gray-200 text-gray-800">
+      <div className="flex items- min-h-screen bg-gray-50 text-gray-800">
         <div className="flex flex-col p-4 w-full">
           <div className="grid grid-cols-12 gap-4">
             <div className="col-span-12 sm:col-span-6 md:col-span-3">

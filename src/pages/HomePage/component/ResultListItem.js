@@ -3,6 +3,7 @@ import CategoryChip from "./CategoryChip";
 import SubCategoryChip from "./SubCategoryChip";
 import {
   IconMapPinOutline,
+  IconStarFill,
   IconStarOutline,
 } from "../../../common/components/Icons";
 import { connect } from "react-redux";
@@ -78,7 +79,7 @@ const ResultListItem = ({ data, onClick, auth, searchTerm }) => {
               </div>
               <div className="flex-shrink-0">
                 <div className=" m-auto">
-                  <IconStarOutline colorClass={"w-6"} strokeWidth={2} />
+                  {/* <IconStarOutline colorClass={"w-6"} strokeWidth={2} /> */}
                 </div>
               </div>
             </div>
@@ -109,7 +110,19 @@ const ResultListItem = ({ data, onClick, auth, searchTerm }) => {
           </div>
 
           <div className="flex-grow flex justify-between items-end">
-            <div className="">Rating</div>
+            <div className="flex flex-row items-center">
+              {/* {data.rating ? "⭐".repeat(data.rating) : "N/A"} */}
+              {[...Array(data.rating ?? 0)].map((e, i) => (
+                <div className="w-6 h-6">
+                  <IconStarFill colorClass="text-yellow-500" />
+                </div>
+              ))}
+              {[...Array(5 - (data.rating ?? 0))].map((e, i) => (
+                <div className="w-5 h-5 text-gray-400 cursor-pointer">
+                  <IconStarOutline />
+                </div>
+              ))}
+            </div>
             <div className="text-gray-400">
               {moment(data.created_at.toDate()).fromNow()}
             </div>

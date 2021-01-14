@@ -138,6 +138,92 @@ export const sendMessage = (data) => {
     }
   };
 };
+export const updateRating = (data) => {
+  return async (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firebase = getFirebase();
+    const firestore = getFirestore();
+    let state = getState();
+    let userId = state?.firebase?.auth?.uid;
+
+    try {
+      await firestore.collection("harvests").doc(data.harvestId).update({
+        rating: data.rating,
+      });
+
+      dispatch({ type: actionTypes.RATE_HARVEST_SUCCESS, res: "" });
+    } catch (err) {
+      dispatch({ type: actionTypes.RATE_HARVEST_ERROR, err });
+    }
+  };
+};
+export const editHarvest = ({ key, value, harvestId }) => {
+  return async (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firebase = getFirebase();
+    const firestore = getFirestore();
+    let state = getState();
+    let userId = state?.firebase?.auth?.uid;
+
+    try {
+      await firestore
+        .collection("harvests")
+        .doc(harvestId)
+        .update({
+          [key]: value,
+        });
+
+      dispatch({ type: actionTypes.RATE_HARVEST_SUCCESS, res: "" });
+    } catch (err) {
+      dispatch({ type: actionTypes.RATE_HARVEST_ERROR, err });
+    }
+  };
+};
+export const addImage = ({ image, harvestId }) => {
+  return async (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firebase = getFirebase();
+    const firestore = getFirestore();
+    let state = getState();
+    let userId = state?.firebase?.auth?.uid;
+    const timeStamp = Date.now();
+    try {
+      var storageRef = firebase.storage().ref();
+      var photoRef = storageRef.child(
+        `/users/${timeStamp}/harvest_${harvestId}.png`
+      );
+      await photoRef.put(image);
+      let photoUrl = await photoRef.getDownloadURL();
+
+      await firestore
+        .collection("harvests")
+        .doc(harvestId)
+        .update({
+          images: firestore.FieldValue.arrayUnion(photoUrl),
+        });
+
+      dispatch({ type: actionTypes.EDIT_HARVEST_SUCCESS, res: "" });
+    } catch (err) {
+      console.log(err);
+      dispatch({ type: actionTypes.EDIT_HARVEST_ERROR, err });
+    }
+  };
+};
+export const removeImage = ({ imageUrl, harvestId }) => {
+  return async (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firestore = getFirestore();
+    try {
+      await firestore
+        .collection("harvests")
+        .doc(harvestId)
+        .update({
+          images: firestore.FieldValue.arrayRemove(imageUrl),
+        });
+
+      dispatch({ type: actionTypes.EDIT_HARVEST_SUCCESS, res: "" });
+    } catch (err) {
+      console.log(err);
+      dispatch({ type: actionTypes.EDIT_HARVEST_ERROR, err });
+    }
+  };
+};
 
 export const addHarvest = (data) => {
   return async (dispatch, getState, { getFirebase, getFirestore }) => {

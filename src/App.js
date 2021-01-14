@@ -80,7 +80,7 @@ function App(props) {
   });
 
   return (
-    <>
+    <div className="flex justify-center bg-gray-900">
       <ToastContainer position="top-center" toastClassName="rounded-lg" />
 
       <animated.div style={loadingProps}>
@@ -117,7 +117,7 @@ function App(props) {
           )
       )}
 
-      <div className="w-screen h-screen py-2 pr-2 bg-gray-50 flex relative overflow-hidden">
+      <div style={{width:"1600px"}} className=" h-screen py-2 pr-2 rounded-lg bg-gray-50 flex relative overflow-hidden">
         <SideNav auth={auth} profile={profile} />
         {routeTransitions.map(({ item, props, key }) => (
           <animated.div
@@ -135,7 +135,7 @@ function App(props) {
           </animated.div>
         ))}
       </div>
-    </>
+    </div>
   );
 }
 const mapStateToProps = (state) => {

@@ -44,7 +44,7 @@ const rrfProps = {
 ReactDOM.render(
   <Provider store={store}>
     <ReactReduxFirebaseProvider {...rrfProps}>
-      <BrowserRouter>
+      <BrowserRouter basename={'/web-y2-s1-assignment/'}>
         <App />
       </BrowserRouter>
     </ReactReduxFirebaseProvider>

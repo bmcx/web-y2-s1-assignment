@@ -59,7 +59,7 @@ const HomePage = (props) => {
       >
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          url="https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png"
+          url="https://a.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         {filteredResults.map((result) => {
           const iconUrls = {
@@ -179,9 +179,9 @@ const HomePage = (props) => {
     <div className="flex w-full h-full">
       <div className="flex-1 pl-4 pr-4 h-full overflow-y-auto">
         <div className="py-4">
-          <div className="bg-gray-100 flex items-center rounded-2xl shadow-sm">
+          <div className="bg-gray-200 flex items-center rounded-2xl shadow-sm">
             <input
-              className="rounded-2xl w-full py-2 px-6 font-bold text-gray-500 leading-tight bg-gray-100 focus:outline-none"
+              className="rounded-2xl w-full py-2 px-6 font-bold text-gray-500 leading-tight bg-gray-200 focus:outline-none"
               id="search"
               type="text"
               autoComplete="off"
@@ -197,7 +197,7 @@ const HomePage = (props) => {
                   🗙
                 </button>
               ) : (
-                <button className="text-gray-300 p-1 hover:text-gray-600 focus:outline-none w-8 h-8 ease-out duration-300">
+                <button className="text-gray-400 p-1 hover:text-gray-600 focus:outline-none w-8 h-8 ease-out duration-300">
                   <IconSearch />
                 </button>
               )}
