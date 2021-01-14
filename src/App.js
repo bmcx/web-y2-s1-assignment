@@ -14,6 +14,7 @@ import AddProfileInfoContainer from "./pages/Auth/AddProfileInfoContainer";
 import HarvestPageContainer from "./pages/HarvestPage/HarvestPageContainer";
 import GraphPageContainer from "./pages/GraphPage/GraphPageContainer";
 import AddHarvestContainer from "./pages/HarvestPage/AddHarvestContainer";
+import SettingsContainer from "./pages/Settings/SettingsContainer";
 
 function App(props) {
   const { auth, profile, authModalVisible, harvestModalVisible } = props;
@@ -130,6 +131,7 @@ function App(props) {
               <Route path="/harvest/:id" component={HarvestPageContainer} />
               <Route path="/profile" component={ProfilePage} />
               <Route path="/graphs" component={GraphPageContainer} />
+              <Route path="/settings" component={SettingsContainer} />
               <Route path="*" component={() => <div>Not found</div>} />
             </Switch>
           </animated.div>

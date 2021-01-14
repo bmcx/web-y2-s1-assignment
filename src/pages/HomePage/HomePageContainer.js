@@ -268,7 +268,7 @@ const HomePage = (props) => {
         {!isEmpty(props.auth) ? (
           <div
             onClick={() => props.showHarvestModal()}
-            className="font-bold text-gray-500 rounded-md hover:shadow-md text-center px-2 py-1 mb-2 border border-opacity-40 bg-gray-100 duration-300 ease-out cursor-pointer"
+            className="font-bold text-gray-500 rounded-md hover:shadow-md text-center px-2 py-1 mb-4 border border-opacity-40 bg-gray-100 duration-300 ease-out cursor-pointer"
           >
             Add New Harvest
           </div>

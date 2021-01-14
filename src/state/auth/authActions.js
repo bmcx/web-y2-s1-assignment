@@ -177,6 +177,23 @@ export const editHarvest = ({ key, value, harvestId }) => {
     }
   };
 };
+export const setRole = ({ value, userId }) => {
+  return async (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firebase = getFirebase();
+    const firestore = getFirestore();
+    let state = getState();
+
+    try {
+      await firestore.collection("users").doc(userId).update({
+        role: value,
+      });
+
+      dispatch({ type: actionTypes.RATE_HARVEST_SUCCESS, res: "" });
+    } catch (err) {
+      dispatch({ type: actionTypes.RATE_HARVEST_ERROR, err });
+    }
+  };
+};
 export const addImage = ({ image, harvestId }) => {
   return async (dispatch, getState, { getFirebase, getFirestore }) => {
     const firebase = getFirebase();

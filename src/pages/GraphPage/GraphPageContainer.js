@@ -25,40 +25,77 @@ const GraphPageContainer = (props) => {
         backgroundColor: "rgba(75,192,192,1)",
         borderColor: "rgba(0,0,0,1)",
         borderWidth: 2,
-        data: [0, 4, 0],
+        data: [0, props.users.length, 0],
       },
     ],
 
     labels: ["Dec", "Jan", "Feb"],
   });
   const [loading, setLoading] = useState(true);
+  const [districtValues, setDistrictValues] = useState({
+    Jaffna: 0,
+    Kilinochchi: 0,
+    Mannar: 0,
+    Mullaitivu: 0,
+    Vavuniya: 0,
+    Puttalam: 0,
+    Kurunegala: 0,
+    Gampaha: 0,
+    Colombo: 0,
+    Kalutara: 0,
+    Anuradhapura: 0,
+    Polonnaruwa: 0,
+    Matale: 0,
+    Kandy: 0,
+    Nuwara_Eliya: 0,
+    Kegalle: 0,
+    Ratnapura: 0,
+    Trincomalee: 0,
+    Batticaloa: 0,
+    Ampara: 0,
+    Badulla: 0,
+    Monaragala: 0,
+    Hambantota: 0,
+    Matara: 0,
+    Galle: 0,
+  });
+  const [created, setCreated] = useState(false);
+
   useEffect(() => {
     if (isLoaded(props.added_last_7_days, props.wasted_harvest, props.users)) {
       setLoading(false);
-      const d2 = data2;
-      const d = data;
-      for (let i = 0; i < props.added_last_7_days.length; i++) {
-        const x = props.added_last_7_days[i];
-        switch (x.categories[0].id) {
-          case "lx2ip2EX2SiSP9XNbtHb":
-            d.datasets[0].data[0] += 1;
-            break;
-          case "iGWbWHqL272OeuMqnqu9":
-            d.datasets[0].data[1] += 1;
-            break;
-          case "q0IX8qPY3gNhgkoAkq1k":
-            d.datasets[0].data[2] += 1;
-            break;
+      if (!created) {
+        const d = data;
+        const list = districtValues;
+        for (let i = 0; i < props.added_last_7_days.length; i++) {
+          const x = props.added_last_7_days[i];
+          switch (x.categories[0].id) {
+            case "lx2ip2EX2SiSP9XNbtHb":
+              d.datasets[0].data[0] += 1;
+              break;
+            case "iGWbWHqL272OeuMqnqu9":
+              d.datasets[0].data[1] += 1;
+              break;
+            case "q0IX8qPY3gNhgkoAkq1k":
+              d.datasets[0].data[2] += 1;
+              break;
 
-          default:
-            break;
+            default:
+              break;
+          }
+          list[x.address.city] += 1;
+          setCreated(true);
         }
+        setDistrictValues(list);
         setData(d);
       }
     }
   }, [
+    created,
     data,
     data.datasets,
+    data2,
+    districtValues,
     props.added_last_7_days,
     props.users,
     props.wasted_harvest,
@@ -83,6 +120,20 @@ const GraphPageContainer = (props) => {
       }
     }
   };
+
+  const generateDistrictWiseDate = () => {
+    let l = [];
+    for (const key in districtValues) {
+      l.push(
+        <div className="flex flex-row space-x-2 justify-between w-32 mb-1">
+          <div>{`${key}`}</div>
+          <div>{`${districtValues[key]}`} </div>
+        </div>
+      );
+    }
+    return l;
+  };
+
   return (
     <div>
       <div className="flex items- min-h-screen bg-gray-50 text-gray-800">
@@ -194,32 +245,42 @@ const GraphPageContainer = (props) => {
             </div>
           </div>
 
-          <div className="w-full flex flex-row space-x-2 mt-2 ">
+          <div className="flex flex-row space-x-2 mt-2">
             <div className="flex-1">
-              <div className="bg-white shadow-md rounded-lg px-3 py-2 mb-4">
+              <div className="flex flex-col bg-white shadow-sm rounded p-4">
                 <div className="block text-gray-700 text-lg font-semibold py-2 px-2">
-                  Percentage
+                  District wise harvests
                 </div>
-                <div className="p1-3 text-sm h-72">
-                  {!loading ? (
-                    <Doughnut
-                      width={100}
-                      height={50}
-                      options={{ maintainAspectRatio: false }}
-                      data={data}
-                    />
-                  ) : null}
-                </div>
+                {generateDistrictWiseDate()}
               </div>
             </div>
-
-            <div className="flex-1">
-              <div className="bg-white shadow-md rounded-lg px-3 py-2 mb-4">
-                <div className="block text-gray-700 text-lg font-semibold py-2 px-2">
-                  Users
+            <div className="flex-1 flex flex-col">
+              <div className="">
+                <div className="bg-white shadow-md rounded-lg px-3 py-2 mb-4">
+                  <div className="block text-gray-700 text-lg font-semibold py-2 px-2">
+                    Percentage
+                  </div>
+                  <div className="p1-3 text-sm h-72">
+                    {!loading ? (
+                      <Doughnut
+                        width={100}
+                        height={50}
+                        options={{ maintainAspectRatio: false }}
+                        data={data}
+                      />
+                    ) : null}
+                  </div>
                 </div>
-                <div className="p1-3 text-sm h-72">
-                  <Bar data={data2} />
+              </div>
+
+              <div className="">
+                <div className="bg-white shadow-md rounded-lg px-3 py-2">
+                  <div className="text-gray-700 text-lg font-semibold py-2 px-2">
+                    Users
+                  </div>
+                  <div className="text-sm ">
+                    <Bar height={127.5} data={data2} />
+                  </div>
                 </div>
               </div>
             </div>

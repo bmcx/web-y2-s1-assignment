@@ -44,7 +44,7 @@ const ResultListItem = ({ data, onClick, auth, searchTerm }) => {
   };
   return (
     <Link to={`/harvest/${data.id}`}>
-      <div className="flex bg-gray-50 hover:bg-gray-100 shadow content-center space-x-4 cursor-pointer mb-10 hover:shadow-md rounded-2xl pr-2 transition-all duration-200 ease-out">
+      <div className="flex bg-gray-50 hover:bg-gray-100 shadow content-center space-x-4 cursor-pointer mb-6 hover:shadow-md rounded-2xl pr-2 transition-all duration-200 ease-out">
         <div className="flex-shrink-0">
           <div
             className=" w-40 h-40 rounded-2xl bg-cover"
@@ -113,12 +113,12 @@ const ResultListItem = ({ data, onClick, auth, searchTerm }) => {
             <div className="flex flex-row items-center">
               {/* {data.rating ? "⭐".repeat(data.rating) : "N/A"} */}
               {[...Array(data.rating ?? 0)].map((e, i) => (
-                <div className="w-6 h-6">
+                <div key={i} className="w-6 h-6">
                   <IconStarFill colorClass="text-yellow-500" />
                 </div>
               ))}
               {[...Array(5 - (data.rating ?? 0))].map((e, i) => (
-                <div className="w-5 h-5 text-gray-400 cursor-pointer">
+                <div key={i} className="w-5 h-5 text-gray-400 cursor-pointer">
                   <IconStarOutline />
                 </div>
               ))}

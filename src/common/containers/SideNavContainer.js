@@ -71,25 +71,27 @@ const SideNav = (props) => {
             </SideNavItem>
           </NavTooltip>
         </ul>
-        {/* <ul>
-          <NavTooltip tooltipText="Settings">
-            <SideNavItem to="/settings">
-              {(isActive) => (
-                <div className="flex content-center">
-                  <IconSettingsOutline
-                    strokeWidth={2}
-                    colorClass={isActive ? navActiveClass : navInActiveClass}
-                  />
-                  <div
-                    className={`w-1 h-1 rounded-sm ${
-                      isActive ? "bg-green-600" : ""
-                    } self-center`}
-                  ></div>
-                </div>
-              )}
-            </SideNavItem>
-          </NavTooltip>
-        </ul> */}
+        {props.profile?.role === "ADMIN" ? (
+          <ul>
+            <NavTooltip tooltipText="Settings">
+              <SideNavItem to="/settings">
+                {(isActive) => (
+                  <div className="flex content-center">
+                    <IconSettingsOutline
+                      strokeWidth={2}
+                      colorClass={isActive ? navActiveClass : navInActiveClass}
+                    />
+                    <div
+                      className={`w-1 h-1 rounded-sm ${
+                        isActive ? "bg-green-600" : ""
+                      } self-center`}
+                    ></div>
+                  </div>
+                )}
+              </SideNavItem>
+            </NavTooltip>
+          </ul>
+        ) : null}
       </nav>
 
       <ProfileNav {...props} />
@@ -189,7 +191,13 @@ const SideNavItem = ({ to, children, className, activeClassName, ...rest }) => {
     </li>
   );
 };
-
+const mapStateToProps = (state) => {
+  return {
+    users: state.firestore.ordered.users ?? [],
+    auth: state.firebase.auth,
+    profile: state.firebase.profile,
+  };
+};
 const mapDispatchToProps = (dispatch) => {
   return {
     showAuthModal: () => dispatch(showAuthModal()),
@@ -197,4 +205,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(SideNav);
+export default connect(mapStateToProps, mapDispatchToProps)(SideNav);
