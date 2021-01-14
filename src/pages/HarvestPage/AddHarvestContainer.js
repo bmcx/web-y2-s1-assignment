@@ -89,13 +89,14 @@ const AddHarvestContainer = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true)
     props.addHarvest({
       selectedDistrict,
       selectedProvince,
       street,
       iconType,
-      latitude,
-      longitude,
+      latitude:districtsLocations[selectedDistrict][0],
+      longitude:districtsLocations[selectedDistrict][1],
       title,
       description,
       categoryId,
@@ -159,7 +160,6 @@ const AddHarvestContainer = (props) => {
                 setDescription(e.target.value);
               }}
               validationError={false}
-              autoFocus={true}
             />
           </div>
 

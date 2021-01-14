@@ -17,6 +17,7 @@ import {
   showAuthModal,
   updateRating,
   removeImage,
+  deleteHarvest,
 } from "../../state/auth/authActions";
 
 const sevenDaysFromToday = moment().subtract(7, "days").toDate();
@@ -28,6 +29,7 @@ const HarvestPageContainer = ({
   setRating,
   profile,
   edit,
+  remove,
   addNewImage,
   removeImageByUrl,
 }) => {
@@ -210,11 +212,27 @@ const HarvestPageContainer = ({
           ) : null}
           <div className="flex flex-col items-end">
             {canEdit ? (
-              <div
-                onClick={() => saveChanges()}
-                className="text-sm py-1 px-2 bg-gray-700 rounded select-none text-gray-50 text-left hover:underline cursor-pointer"
-              >
-                {editing ? "Save" : "Edit"}
+              <div className="flex flex-row space-x-1">
+                <div
+                  onClick={() => saveChanges()}
+                  className="text-sm py-1 px-2 bg-gray-700 rounded select-none text-gray-50 text-left hover:underline cursor-pointer"
+                >
+                  {editing ? "Save" : "Edit"}
+                </div>
+                {!editing ? (
+                  <div
+                  onClick={() => {
+                    let t = window.confirm("Action cannot be undone! Are you sure?");
+                    if (t)
+                      remove({
+                        harvestId: harvest.id,
+                      });
+                  }}
+                    className="text-sm py-1 px-2 bg-gray-700 rounded select-none text-gray-50 text-left hover:underline cursor-pointer"
+                  >
+                    Delete
+                  </div>
+                ) : null}
               </div>
             ) : null}
             <div className="text-sm text-gray-400">
@@ -291,6 +309,7 @@ const mapDispatchToProps = (dispatch) => {
     edit: (data) => dispatch(editHarvest(data)),
     addNewImage: (data) => dispatch(addImage(data)),
     removeImageByUrl: (data) => dispatch(removeImage(data)),
+    remove: (data) => dispatch(deleteHarvest(data)),
   };
 };
 

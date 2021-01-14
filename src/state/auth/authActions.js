@@ -224,6 +224,19 @@ export const removeImage = ({ imageUrl, harvestId }) => {
     }
   };
 };
+export const deleteHarvest = ({ harvestId }) => {
+  return async (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firestore = getFirestore();
+    try {
+      await firestore.collection("harvests").doc(harvestId).delete();
+
+      dispatch({ type: actionTypes.DELETE_HARVEST_SUCCESS, res: "" });
+    } catch (err) {
+      console.log(err);
+      dispatch({ type: actionTypes.DELETE_HARVEST_ERROR, err });
+    }
+  };
+};
 
 export const addHarvest = (data) => {
   return async (dispatch, getState, { getFirebase, getFirestore }) => {
