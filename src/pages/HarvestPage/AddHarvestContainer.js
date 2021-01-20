@@ -1,4 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, {
+  useState,
+  useEffect,
+  useMemo,
+  useCallback,
+  useRef,
+} from "react";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { connect } from "react-redux";
 import { firestoreConnect, isLoaded } from "react-redux-firebase";
 import { compose } from "redux";
@@ -60,7 +67,10 @@ const districtsLocations = {
   Matara: [5.9549, 80.555],
   Galle: [6.0535, 80.221],
 };
-
+const center = {
+  lat: 7.2906,
+  lng: 80.6337,
+};
 const AddHarvestContainer = (props) => {
   const [loading, setLoading] = useState(false);
 
@@ -89,14 +99,14 @@ const AddHarvestContainer = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setLoading(true)
+    setLoading(true);
     props.addHarvest({
       selectedDistrict,
       selectedProvince,
       street,
       iconType,
-      latitude:districtsLocations[selectedDistrict][0],
-      longitude:districtsLocations[selectedDistrict][1],
+      latitude: districtsLocations[selectedDistrict][0],
+      longitude: districtsLocations[selectedDistrict][1],
       title,
       description,
       categoryId,
@@ -245,6 +255,19 @@ const AddHarvestContainer = (props) => {
               />
             </div>
           </div>
+          <div className="mt-2 h-60">
+            <MapContainer
+              center={center}
+              zoom={9}
+              scrollWheelZoom={true}
+            >
+              <TileLayer
+                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              />
+              {/* <DraggableMarker /> */}
+            </MapContainer>
+          </div>
           <div className="mt-2">
             <label
               className="block text-gray-600 text-sm font-medium mb-2"
@@ -322,7 +345,42 @@ const AddHarvestContainer = (props) => {
     </div>
   );
 };
+function DraggableMarker() {
+  const [draggable, setDraggable] = useState(false);
+  const [position, setPosition] = useState(center);
+  const markerRef = useRef(null);
+  const eventHandlers = useMemo(
+    () => ({
+      dragend() {
+        const marker = markerRef.current;
+        if (marker != null) {
+          setPosition(marker.getLatLng());
+        }
+      },
+    }),
+    []
+  );
+  const toggleDraggable = useCallback(() => {
+    setDraggable((d) => !d);
+  }, []);
 
+  return (
+    <Marker
+      draggable={draggable}
+      eventHandlers={eventHandlers}
+      position={position}
+      ref={markerRef}
+    >
+      <Popup minWidth={90}>
+        <span onClick={toggleDraggable}>
+          {draggable
+            ? "Marker is draggable"
+            : "Click here to make marker draggable"}
+        </span>
+      </Popup>
+    </Marker>
+  );
+}
 const mapStateToProps = (state) => {
   return {
     authError: state.auth.authError,

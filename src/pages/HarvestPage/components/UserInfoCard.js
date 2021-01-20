@@ -14,10 +14,10 @@ const UserInfoCard = ({ user, address }) => {
     <div className="flex flex-row space-x-2 items-center">
       <div
         className="w-10 h-10 rounded-xl bg-cover "
-        style={{ backgroundImage: `url("${user.photo}")` }}
+        style={{ backgroundImage: `url("${user?.photo}")` }}
       ></div>
       <div className="flex flex-col">
-        <div className="text-gray-800">{`${user.firstName} ${user.lastName}`}</div>
+        <div className="text-gray-800">{`${user?.firstName} ${user?.lastName}`}</div>
         {address}
       </div>
     </div>
